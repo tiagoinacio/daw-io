@@ -1,0 +1,17 @@
+.item {
+  display: inline-block;
+}
+
+.svg {
+  width: 20px;
+  max-height: 40px;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+}
+
+.bar {
+  display: flex;
+}
