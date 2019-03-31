@@ -1,0 +1,13 @@
+@import '../../../styles/variables.css';
+
+.button {
+  background-color: var(--color-dark);
+  border: 1px solid var(--color-orange);
+  cursor: pointer;
+  color: var(--color-light);
+}
+
+.button:hover {
+  background-color: var(--color-orange);
+  color: var(--color-dark);
+}

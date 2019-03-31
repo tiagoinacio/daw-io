@@ -1,11 +1,11 @@
-import React from "react";
-import MainNavigation from "../main-navigation";
-import TransportBar from "../transport-bar";
-import styles from "./styles.css";
+import React from 'react';
+import MainNavigation from '../main-navigation';
+import TransportBar from '../transport-bar';
+import './styles.css';
 
 export default () => (
-  <header>
-    <MainNavigation />
-    <TransportBar className={styles.transportBar} isPlaying={false} />
+  <header className="header">
+    <MainNavigation className="mainNavigation" />
+    <TransportBar className="transportBar" isPlaying={false} />
   </header>
 );

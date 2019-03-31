@@ -1,29 +1,30 @@
-import React from "react";
-import { Icon } from "@daw/ui";
-import styles from "./styles.css";
+import React from 'react';
+import { Icon } from '@daw/ui';
+import './styles.css';
 
 export default props => (
-  <div className={styles.bar}>
-    <ul className={styles.group}>
-      <li className={styles.item}>
-        <Icon id="fast-backwards" className={styles.svg} />
+  <div className={props.className}>
+    <ul className="group">
+      <li className="item">
+        <Icon id="fast-backwards" className="svg" />
       </li>
-      <li className={styles.item}>
-        <Icon id="backwards" className={styles.svg} />
+      <li className="item">
+        <Icon id="backwards" className="svg" />
       </li>
-      <li className={styles.item}>
-        <Icon id="forward" className={styles.svg} />
+      <li className="item">
+        <Icon id="forward" className="svg" />
       </li>
-      <li className={styles.item}>
-        <Icon id="fast-forward" className={styles.svg} />
+      <li className="item">
+        <Icon id="fast-forward" className="svg" />
       </li>
-    </ul>
-    <ul className={styles.group}>
-      <li className={styles.item}>
-        <Icon id="stop" className={styles.svg} />
+      <li className="item">
+        <Icon id="record" className="svg" />
       </li>
-      <li className={styles.item}>
-        <Icon id={props.isPlaying ? "pause" : "play"} className={styles.svg} />
+      <li className="item">
+        <Icon id="stop" className="svg" />
+      </li>
+      <li className="item">
+        <Icon id={props.isPlaying ? 'pause' : 'play'} className="svg" />
       </li>
     </ul>
   </div>

@@ -1,17 +1,32 @@
+@import '../../styles/variables.css';
+
 .item {
-  display: inline-block;
+  display: flex;
 }
 
 .svg {
-  width: 20px;
-  max-height: 40px;
+  width: 16px;
+  height: 16px;
+  padding: 4px;
+  cursor: pointer;
+  fill: var(--color-black);
+  stroke-width: 2px;
+  stroke: var(--color-black);
+}
+
+.svg:hover {
+  fill: var(--color-light);
+  stroke: var(--color-light);
 }
 
 .group {
+  list-style-type: none;
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  margin: 0;
 }
 
-.bar {
-  display: flex;
+.group:last-child {
+  border-top: none;
 }
