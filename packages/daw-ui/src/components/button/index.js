@@ -1,7 +1,8 @@
 import React from 'react';
-import './styles.css';
-export default ({ children, className, ...otherProps }) => (
-  <button className={`${className} button`} {...otherProps}>
+import Button from '@material-ui/core/Button';
+
+export default ({ children, className }) => (
+  <Button variant="contained" color="primary">
     {children}
-  </button>
+  </Button>
 );

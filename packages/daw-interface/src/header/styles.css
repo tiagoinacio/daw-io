@@ -1,14 +1,15 @@
 .header {
   display: flex;
-  align-items: center;
-  background-color: var(--color-dark);
+  flex-direction: row;
+  align-items: flex-start;
+  overflow: hidden;
 }
 
 .transportBar {
-  display: inline-block;
+  display: flex;
+  justify-content: flex-start;
 }
 
-.mainNavigation {
-  display: inline-block;
-  margin-right: 20px;
+.top-bar {
+  align-items: center;
 }

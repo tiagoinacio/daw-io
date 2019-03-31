@@ -1,11 +1,26 @@
-.list {
-  list-style-type: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
+.nav button {
+  font-size: 1.2rem;
+  max-width: 100px;
+  min-width: 60px;
+  max-width: 60px;
+  margin: 0 5px;
 }
 
-.button {
-  padding: 5px 10px;
-  margin: 2px;
+.nav {
+  display: flex;
+}
+
+.nav span {
+  padding: 0;
+}
+
+div.menu,
+div.paper {
+  top: 75px;
+  max-width: 200px;
+  outline: none;
+}
+
+div.paper {
+  background-color: #e1e1e1;
 }

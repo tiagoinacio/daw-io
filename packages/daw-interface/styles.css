@@ -5,3 +5,13 @@
   width: 100%;
   height: 100%;
 }
+
+.header {
+  margin-bottom: 75px;
+}
+
+div.view {
+  margin-top: 65px;
+  background-color: #cfcfcf;
+  height: 100%;
+}

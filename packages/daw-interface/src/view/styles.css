@@ -1,0 +1,21 @@
+.sidebar {
+  height: 100%;
+  background-color: #444;
+  box-shadow: -10px 0px 35px -3px #111 inset;
+}
+
+div.grid {
+  padding: 0 !important;
+}
+
+.arrangementView {
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #ccc,
+    #ccc 10px,
+    #bbb 10px,
+    #ccc 11px,
+    #ccc 30px
+  );
+}

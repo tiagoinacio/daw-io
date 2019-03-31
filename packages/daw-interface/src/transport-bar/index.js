@@ -1,31 +1,19 @@
 import React from 'react';
-import { Icon } from '@daw/ui';
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
+import classnames from 'classnames';
 import './styles.css';
 
 export default props => (
-  <div className={props.className}>
-    <ul className="group">
-      <li className="item">
-        <Icon id="fast-backwards" className="svg" />
-      </li>
-      <li className="item">
-        <Icon id="backwards" className="svg" />
-      </li>
-      <li className="item">
-        <Icon id="forward" className="svg" />
-      </li>
-      <li className="item">
-        <Icon id="fast-forward" className="svg" />
-      </li>
-      <li className="item">
-        <Icon id="record" className="svg" />
-      </li>
-      <li className="item">
-        <Icon id="stop" className="svg" />
-      </li>
-      <li className="item">
-        <Icon id={props.isPlaying ? 'pause' : 'play'} className="svg" />
-      </li>
-    </ul>
+  <div className={classnames(props.className, 'group')}>
+    <Button className="record icon" color="secondary">
+      <Icon>fiber_manual_record</Icon>
+    </Button>
+    <Button className="icon">
+      <Icon>stop</Icon>
+    </Button>
+    <Button className="icon">
+      <Icon>{props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
+    </Button>
   </div>
 );

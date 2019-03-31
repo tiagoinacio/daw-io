@@ -1,0 +1,19 @@
+p.name {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.54);
+  font-weight: bold;
+}
+
+.select {
+  width: 10px;
+  height: 100%;
+  background-color: white;
+  cursor: pointer;
+}
+
+.select.active {
+  background-color: orange;
+}

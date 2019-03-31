@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@daw/ui": "*",
+    "muuri": "^0.7.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "@daw/ui": "*"
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "classnames": "^2.2.6"
   }
 }

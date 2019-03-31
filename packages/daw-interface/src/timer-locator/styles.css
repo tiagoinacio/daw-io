@@ -1,0 +1,20 @@
+.timer-locator {
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 0 20px;
+  height: 100%;
+  display: flex;
+}
+
+.key {
+  color: #a1a1a1;
+  font-weight: 100;
+  border-right: 1px dashed #e1e1e1;
+  padding-top: 5px;
+}
+
+.value {
+  font-weight: bold;
+  border-right: 1px dashed #e1e1e1;
+  padding-bottom: 5px;
+}
