@@ -6,6 +6,9 @@ import './styles.css';
 
 export default props => (
   <Grid className={props.className} container spacing={16}>
+    <Grid item sm={12} className="markers">
+      Markers
+    </Grid>
     <Grid item sm={2} className="grid">
       <Sidebar className="sidebar" />
     </Grid>

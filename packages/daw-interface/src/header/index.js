@@ -15,13 +15,13 @@ export default props => (
     color="default"
   >
     <ProjectName />
-    <Grid container spacing={24} className="top-bar">
+    <Grid container spacing={24} className="align-center">
       <Grid item sm>
         <Grid container spacing={8}>
           <Grid item sm={9}>
             <MainNavigation />
           </Grid>
-          <Grid item sm={2}>
+          <Grid item sm={2} className="align-center">
             <TransportBar className="transportBar" isPlaying={false} />
           </Grid>
         </Grid>

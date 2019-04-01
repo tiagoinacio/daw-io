@@ -1,6 +1,6 @@
 li.track {
-  height: 100px;
-  border-bottom: 1px solid #bbb;
   margin: 0;
   padding: 0;
+  border-bottom: 1px solid #444;
+  height: 100%;
 }

@@ -9,7 +9,7 @@ div.grid {
 }
 
 .arrangementView {
-  height: 100%;
+  top: 154px !important;
   background: repeating-linear-gradient(
     90deg,
     #ccc,
@@ -18,4 +18,10 @@ div.grid {
     #ccc 11px,
     #ccc 30px
   );
+}
+
+.markers {
+  height: 10px;
+  background-color: #888;
+  box-shadow: 0 -30px 8px -18px inset #444;
 }

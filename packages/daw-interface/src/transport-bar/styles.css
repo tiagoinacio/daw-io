@@ -9,19 +9,17 @@
 }
 
 .group button {
-  width: 50px;
-  min-width: 50px;
-  margin: 0 5px;
+  width: 30px;
+  min-width: 30px;
+  margin: 0;
   padding: 0;
-  background-color: #cfcfcf;
-  color: #f5f5f5;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .icon span {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .group button.record {
-  background-color: #cfcfcf;
   color: red;
 }

@@ -17,3 +17,8 @@ p.name {
 .select.active {
   background-color: orange;
 }
+
+.drag {
+  width: 100%;
+  height: 100%;
+}

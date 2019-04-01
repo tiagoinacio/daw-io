@@ -21,12 +21,14 @@ export default props => {
 
   return (
     <nav className="nav">
-      <Button onClick={onMenuClick}>
-        <Icon>menu</Icon>
-      </Button>
-      <Button onClick={onViewChange}>
-        <Icon>{view}</Icon>
-      </Button>
+      <div className="main-nav">
+        <Button onClick={onMenuClick}>
+          <Icon>menu</Icon>
+        </Button>
+        <Button onClick={onViewChange}>
+          <Icon>{view}</Icon>
+        </Button>
+      </div>
       <Tabs
         scrollButtons="off"
         variant="scrollable"
@@ -64,6 +66,9 @@ export default props => {
           </ListItem>
           <ListItem button>
             <ListItemText primary="Save Project" />
+          </ListItem>
+          <ListItem button>
+            <input type="file" id="input" />
           </ListItem>
         </div>
       </Drawer>

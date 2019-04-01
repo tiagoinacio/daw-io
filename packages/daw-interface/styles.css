@@ -11,7 +11,10 @@
 }
 
 div.view {
-  margin-top: 65px;
+  margin-top: 75px;
   background-color: #cfcfcf;
   height: 100%;
+  color: #e1e1e1;
+  align-content: baseline;
+  box-shadow: 0 7px 9px -7px inset #888;
 }
