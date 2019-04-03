@@ -1,21 +1,23 @@
+@import '../../styles/variables.css';
+
 p.name {
   position: absolute;
   bottom: 0;
   left: 15px;
   font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--color-primary-contrastText);
   font-weight: bold;
 }
 
 .select {
   width: 10px;
   height: 100%;
-  background-color: white;
+  background-color: var(--color-primary-light);
   cursor: pointer;
 }
 
 .select.active {
-  background-color: orange;
+  background-color: var(--color-primary-main);
 }
 
 .drag {

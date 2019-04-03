@@ -4,4 +4,17 @@
   --color-light: #ebebeb;
   --color-orange: #ffbe28;
   --color-black: #1f1f1f;
+
+  --color-primary-light: #e2e2e4;
+  --color-primary-main: #b64b03;
+  --color-primary-dark: #080808;
+  --color-primary-dark-grey: #383838;
+  --color-primary-grey: #4e4e4e;
+  --color-primary-light-grey: #656565;
+  --color-primary-contrastText: #a9a8a8;
+
+  --color-secondary-light: #ebebeb;
+  --color-secondary-main: #ebebeb;
+  --color-secondary-dark: #ebebeb;
+  --color-secondary-contrastText: #ebebeb;
 }

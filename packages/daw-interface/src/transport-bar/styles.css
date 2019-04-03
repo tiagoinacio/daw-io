@@ -13,7 +13,7 @@
   min-width: 30px;
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, 0.87);
+  color: var(--color-primary-contrastText);
 }
 
 .icon span {
@@ -21,5 +21,5 @@
 }
 
 .group button.record {
-  color: red;
+  color: var(--color-primary-main);
 }

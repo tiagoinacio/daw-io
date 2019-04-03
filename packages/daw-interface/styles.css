@@ -11,9 +11,9 @@
 }
 
 div.view {
-  margin-top: 75px;
-  background-color: #cfcfcf;
+  margin-top: 74px;
+  background-color: var(--color-primary-light);
   height: 100%;
-  color: #e1e1e1;
+  color: var(--color-primary-light-grey);
   align-content: baseline;
 }

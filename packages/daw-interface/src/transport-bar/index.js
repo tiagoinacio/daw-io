@@ -12,7 +12,7 @@ export default props => (
     <Button className="icon">
       <Icon>stop</Icon>
     </Button>
-    <Button className="icon">
+    <Button className="icon" onClick={props.onPlay}>
       <Icon>{props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
     </Button>
   </div>

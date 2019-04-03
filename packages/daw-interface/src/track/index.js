@@ -14,7 +14,7 @@ export default props => {
     onFileDrop,
     isLoading,
     onDone
-  } = useAudioRegionsLoader();
+  } = useAudioRegionsLoader(props.audioContext, props.isPlaying);
 
   return (
     <ListItem className={props.className}>
@@ -30,7 +30,6 @@ export default props => {
             buffer={audioRegions}
             key={0}
             color="cadetblue"
-            width="100%"
             onDone={onDone}
           />
         )}

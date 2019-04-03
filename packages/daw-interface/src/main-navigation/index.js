@@ -38,10 +38,34 @@ export default props => {
         indicatorColor="primary"
         textColor="primary"
       >
-        <Tab label="Sampler" />
-        <Tab label="Grid Editor" />
-        <Tab label="Audio Region" />
-        <Tab label="Mixer" />
+        <Tab
+          classes={{
+            textColorPrimary: 'tab',
+            selected: 'selected'
+          }}
+          label="Sampler"
+        />
+        <Tab
+          classes={{
+            textColorPrimary: 'tab',
+            selected: 'selected'
+          }}
+          label="Grid Editor"
+        />
+        <Tab
+          classes={{
+            textColorPrimary: 'tab',
+            selected: 'selected'
+          }}
+          label="Audio Region"
+        />
+        <Tab
+          classes={{
+            textColorPrimary: 'tab',
+            selected: 'selected'
+          }}
+          label="Mixer"
+        />
       </Tabs>
       <Drawer
         ModalProps={{

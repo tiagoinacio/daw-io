@@ -13,7 +13,10 @@ export default props => (
       <Sidebar className="sidebar" />
     </Grid>
     <Grid item sm={10} className="grid">
-      <ArrangementView className="arrangementView" />
+      <ArrangementView
+        className="arrangementView"
+        isPlaying={props.isPlaying}
+      />
     </Grid>
   </Grid>
 );

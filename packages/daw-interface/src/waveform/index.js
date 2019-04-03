@@ -64,7 +64,6 @@ export default class Waveform extends React.Component {
 
 Waveform.propTypes = {
   buffer: PropTypes.object.isRequired,
-  width: PropTypes.number,
   height: PropTypes.number,
   zoom: PropTypes.number,
   color: PropTypes.string,

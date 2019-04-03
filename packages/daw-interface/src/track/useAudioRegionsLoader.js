@@ -13,7 +13,8 @@ const getFiles = event => {
   return event.dataTransfer.files;
 };
 
-export default () => {
+export default (audioContext, isPlaying) => {
+  const [sources, setAudioSource] = useState(null);
   const [audioRegions, setAudioRegions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,10 +41,17 @@ export default () => {
 
     fileReader.onload = function(e) {
       const fileResult = e.target.result;
-      const ctx = new AudioContext();
 
-      ctx.decodeAudioData(fileResult, buffer => {
+      audioContext.decodeAudioData(fileResult, buffer => {
+        let s = audioContext.createBufferSource();
+
         setAudioRegions(buffer);
+
+        s.buffer = buffer;
+
+        setAudioSource(s);
+
+        s.connect(audioContext.destination);
       });
     };
 
@@ -53,6 +61,17 @@ export default () => {
 
     fileReader.readAsArrayBuffer(files[0]);
   };
+
+  if (isPlaying && sources) {
+    console.log(sources);
+
+    sources.start();
+    // if (sources.context.state === 'running') {
+    //   sources.stop();
+    // } else {
+    //   sources.start();
+    // }
+  }
 
   const onDone = () => {
     setIsLoading(false);
@@ -64,6 +83,7 @@ export default () => {
     onDragEnter,
     onFileDrop,
     onDone,
-    isLoading
+    isLoading,
+    isPlaying
   };
 };

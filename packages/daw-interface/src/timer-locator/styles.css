@@ -1,3 +1,5 @@
+@import '../../styles/variables.css';
+
 .timer-locator {
   font-size: 1.4rem;
   text-align: center;
@@ -7,14 +9,15 @@
 }
 
 .key {
-  color: #a1a1a1;
+  color: var(--color-primary-grey);
   font-weight: 100;
-  border-right: 1px dashed #e1e1e1;
+  border-right: 1px dashed var(--color-primary-grey);
   padding-top: 5px;
 }
 
 .value {
   font-weight: bold;
-  border-right: 1px dashed #e1e1e1;
+  border-right: 1px dashed var(--color-primary-light);
   padding-bottom: 5px;
+  color: var(--color-primary-contrastText);
 }
