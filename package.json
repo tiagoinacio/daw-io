@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "autoprefixer": "7.1.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "7.2.3",

@@ -5,7 +5,6 @@ export default class Waveform extends React.Component {
   static defaultProps = {
     buffer: null,
     height: 100,
-    zoom: 1,
     color: 'black'
   };
 
@@ -15,15 +14,28 @@ export default class Waveform extends React.Component {
   }
 
   componentDidMount() {
-    var width = (this.props.buffer.length / 10000) * this.props.zoom;
+    var width = (this.props.buffer.length / 10000) * this.props.horizontalZoom;
     var middle = this.props.height / 2;
     var channelData = this.props.buffer.getChannelData(0);
     var step = Math.ceil(channelData.length / width);
 
-    var ctx = this.canvasRef.current.getContext('2d');
-    ctx.fillStyle = this.props.color;
-    this.draw(width, step, middle, channelData, ctx);
+    this.ctx = this.canvasRef.current.getContext('2d');
+    this.ctx.fillStyle = this.props.color;
+    this.draw(width, step, middle, channelData, this.ctx);
 
+    this.props.onDone();
+  }
+
+  componentWillUpdate(nextProps) {
+    var width = (this.props.buffer.length / 10000) * nextProps.horizontalZoom;
+    var middle = this.props.height / 2;
+    var channelData = this.props.buffer.getChannelData(0);
+    var step = Math.ceil(channelData.length / width);
+
+    this.draw(width, step, middle, channelData, this.ctx);
+  }
+
+  componentDidUpdate() {
     this.props.onDone();
   }
 
@@ -55,7 +67,7 @@ export default class Waveform extends React.Component {
     return (
       <canvas
         ref={this.canvasRef}
-        width={(this.props.buffer.length / 10000) * this.props.zoom}
+        width={(this.props.buffer.length / 10000) * this.props.horizontalZoom}
         height={this.props.height}
       />
     );
@@ -65,7 +77,7 @@ export default class Waveform extends React.Component {
 Waveform.propTypes = {
   buffer: PropTypes.object.isRequired,
   height: PropTypes.number,
-  zoom: PropTypes.number,
+  horizontalZoom: PropTypes.number.isRequired,
   color: PropTypes.string,
   onDone: PropTypes.func
 };

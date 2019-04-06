@@ -1,0 +1,12 @@
+{
+  "name": "@daw/state",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-actions": "^2.6.5",
+    "redux-saga": "^1.0.2",
+    "redux-thunk": "^2.3.0"
+  }
+}

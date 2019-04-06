@@ -13,7 +13,7 @@ const getFiles = event => {
   return event.dataTransfer.files;
 };
 
-export default (audioContext, isPlaying) => {
+export default props => {
   const [sources, setAudioSource] = useState(null);
   const [audioRegions, setAudioRegions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +21,13 @@ export default (audioContext, isPlaying) => {
   const onDragOver = event => {
     event.stopPropagation();
     event.preventDefault();
-    console.log('onDragEnter', event);
+    // console.log('onDragEnter', event);
   };
 
   const onDragEnter = event => {
     event.stopPropagation();
     event.preventDefault();
-    console.log('onDragEnter', event);
+    // console.log('onDragEnter', event);
   };
 
   const onFileDrop = event => {
@@ -42,16 +42,8 @@ export default (audioContext, isPlaying) => {
     fileReader.onload = function(e) {
       const fileResult = e.target.result;
 
-      audioContext.decodeAudioData(fileResult, buffer => {
-        let s = audioContext.createBufferSource();
-
+      props.audioContext.decodeAudioData(fileResult, buffer => {
         setAudioRegions(buffer);
-
-        s.buffer = buffer;
-
-        setAudioSource(s);
-
-        s.connect(audioContext.destination);
       });
     };
 
@@ -61,17 +53,25 @@ export default (audioContext, isPlaying) => {
 
     fileReader.readAsArrayBuffer(files[0]);
   };
+  const onPlayPause = () => {
+    if (props.isPlaying && audioRegions) {
+      let source = props.audioContext.createBufferSource();
+      source.buffer = audioRegions;
 
-  if (isPlaying && sources) {
-    console.log(sources);
+      setAudioSource(source);
 
-    sources.start();
-    // if (sources.context.state === 'running') {
-    //   sources.stop();
-    // } else {
-    //   sources.start();
-    // }
-  }
+      source.connect(props.audioContext.destination);
+
+      if (props.audioContext.state !== 'running') {
+        props.audioContext.resume();
+      } else {
+        props.audioContext.resume();
+        source.start();
+      }
+    } else if (sources && !props.isPlaying) {
+      props.audioContext.suspend();
+    }
+  };
 
   const onDone = () => {
     setIsLoading(false);
@@ -82,8 +82,8 @@ export default (audioContext, isPlaying) => {
     onDragOver,
     onDragEnter,
     onFileDrop,
+    onPlayPause,
     onDone,
-    isLoading,
-    isPlaying
+    isLoading
   };
 };

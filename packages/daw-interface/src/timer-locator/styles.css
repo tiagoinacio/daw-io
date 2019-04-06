@@ -21,3 +21,32 @@
   padding-bottom: 5px;
   color: var(--color-primary-contrastText);
 }
+
+.input input,
+.signature [role='button'] {
+  color: var(--color-primary-contrastText);
+  font-size: 1.4rem;
+  padding: 0;
+  text-align: center;
+  line-height: 1.1875em;
+  min-height: unset;
+}
+
+.signature svg {
+  display: none;
+}
+
+div.input {
+  margin-left: 10px;
+}
+
+div.signature {
+  margin-left: 0;
+}
+
+div.input *::after,
+div.input *::before,
+div.signature *::after,
+div.signature *::before {
+  content: none;
+}

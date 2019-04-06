@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ListItem, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Waveform from '../waveform';
@@ -6,15 +6,22 @@ import useAudioRegionsLoader from './useAudioRegionsLoader';
 import classnames from 'classnames';
 import './styles.css';
 
-export default props => {
+const Track = props => {
   const {
     audioRegions,
     onDragOver,
     onDragEnter,
     onFileDrop,
     isLoading,
+    onPlayPause,
     onDone
-  } = useAudioRegionsLoader(props.audioContext, props.isPlaying);
+  } = useAudioRegionsLoader({
+    audioContext: props.audioContext,
+    isPlaying: props.isPlaying,
+    isStopped: props.isStopped
+  });
+
+  useEffect(onPlayPause, [props.isPlaying]);
 
   return (
     <ListItem className={props.className}>
@@ -28,6 +35,7 @@ export default props => {
         {audioRegions && (
           <Waveform
             buffer={audioRegions}
+            horizontalZoom={props.horizontalZoom}
             key={0}
             color="cadetblue"
             onDone={onDone}
@@ -40,3 +48,5 @@ export default props => {
     </ListItem>
   );
 };
+
+export default Track;

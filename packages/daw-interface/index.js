@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from './src/header';
 import View from './src/view';
+import State, { withAudio } from '@daw/state';
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { AudioContextProvider } from './src/context/AudioContext';
 import './styles.css';
 
 const theme = createMuiTheme({
@@ -29,19 +30,23 @@ const theme = createMuiTheme({
   }
 });
 
-export const App = () => {
-  const audioContext = new AudioContext();
-  const source = audioContext.createBufferSource();
-  const [isPlaying, setIsPlaying] = useState(false);
+const Interface = withAudio(props => {
+  useEffect(() => {
+    props.setAudioContext(new AudioContext());
+  }, []);
 
   return (
     <MuiThemeProvider theme={theme}>
-      <AudioContextProvider value={{ audioContext, source }}>
-        <div className="interface">
-          <Header className="header" onPlay={() => setIsPlaying(!isPlaying)} />
-          <View className="view" isPlaying={isPlaying} />
-        </div>
-      </AudioContextProvider>
+      <div className="interface">
+        <Header className="header" />
+        <View className="view" />
+      </div>
     </MuiThemeProvider>
   );
-};
+});
+
+export const App = () => (
+  <State>
+    <Interface />
+  </State>
+);
