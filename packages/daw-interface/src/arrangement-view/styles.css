@@ -10,7 +10,6 @@ li.track {
 .marker {
   position: absolute;
   height: 100%;
-  margin-left: 10px;
   border-right: 2px solid var(--color-primary-main);
 }
 

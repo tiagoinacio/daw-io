@@ -9,6 +9,7 @@ export default withTime(
   withTransport(
     withAudio(props => {
       const [currentTime, setCurrentTime] = useState(0);
+      const [style, setStyle] = useState(null);
 
       useEffect(() => {
         if (props.isPlaying) {
@@ -20,8 +21,50 @@ export default withTime(
         }
       }, [props.isPlaying, props.isStopped, currentTime]);
 
+      useEffect(() => {
+        // const style = {
+        //   background: `
+        //     repeating-linear-gradient(
+        //       90deg,
+        //       var(--color-primary-light-grey) 0px,
+        //       var(--color-primary-light-grey) 33px,
+        //       var(--color-primary-dark-grey) 34px,
+        //       var(--color-primary-light-grey) 35px,
+        //       var(--color-primary-light-grey) 35.4px
+        //     )`
+        // };
+        // const style90bpms = {
+        //   background: `
+        //     repeating-linear-gradient(
+        //       90deg,
+        //       var(--color-primary-light-grey) 0px,
+        //       var(--color-primary-light-grey) 10.5px,
+        //       var(--color-primary-dark-grey) 10px,
+        //       var(--color-primary-light-grey) 11px,
+        //       var(--color-primary-light-grey) 11.8px
+        //     )`
+        // };
+        const style = {
+          background: `
+            repeating-linear-gradient(
+              90deg,
+              var(--color-primary-light-grey) 0px,
+              var(--color-primary-light-grey) ${21.75 +
+                Number(props.bpm) * 0.375}px,
+              var(--color-primary-dark-grey) ${22 + Number(props.bpm) * 0.4}px,
+              var(--color-primary-light-grey) ${23 + Number(props.bpm) * 0.4}px,
+              var(--color-primary-light-grey) ${23.61 +
+                Number(props.bpm) * 0.393}px
+            )`
+        };
+
+        console.log(props);
+
+        setStyle(style);
+      }, [props.bpm]);
+
       return (
-        <div className={props.className}>
+        <div className={props.className} style={style}>
           <span className="marker" style={{ paddingLeft: currentTime }} />
           <Resizable
             enable={{

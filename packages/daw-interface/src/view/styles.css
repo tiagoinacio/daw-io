@@ -11,14 +11,6 @@ div.grid {
 
 .arrangementView {
   top: 154px !important;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-primary-light-grey),
-    var(--color-primary-light-grey) 10px,
-    var(--color-primary-dark-grey) 10px,
-    var(--color-primary-light-grey) 11px,
-    var(--color-primary-light-grey) 30px
-  );
 }
 
 .markers {

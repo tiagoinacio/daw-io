@@ -25,7 +25,7 @@ const Track = props => {
 
   return (
     <ListItem className={props.className}>
-      <div className={classnames('select', { active: props.isActive })} />
+      {/* <div className={classnames('select', { active: props.isActive })} /> */}
       <div
         className="drag"
         onDragEnter={onDragEnter}

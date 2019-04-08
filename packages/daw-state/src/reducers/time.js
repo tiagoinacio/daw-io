@@ -33,7 +33,7 @@ export default {
       })
     },
     {
-      bpm: '90',
+      bpm: '30',
       signature: '4/4',
       bar: 1,
       beat: 1,
