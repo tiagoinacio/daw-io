@@ -104,7 +104,7 @@ export default withTime(
             <Slider
               value={props.horizontalZoom}
               min={1}
-              max={20}
+              max={50}
               step={2}
               aria-labelledby="label"
               onChange={(_, value) => props.setHorizontalZoom(value)}

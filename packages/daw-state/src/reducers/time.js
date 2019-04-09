@@ -39,7 +39,7 @@ export default {
       beat: 1,
       div: 1,
       tick: 1,
-      horizontalZoom: 20
+      horizontalZoom: 50
     }
   )
 };
