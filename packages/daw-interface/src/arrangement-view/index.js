@@ -9,8 +9,18 @@ export default withTime(
   withTransport(
     withAudio(props => {
       const [currentTime, setCurrentTime] = useState(0);
-      const [style, setStyle] = useState(null);
-
+      const zoomFactor = props.horizontalZoom / 200;
+      const bpmFactor = (90 * 589) / props.bpm;
+      const base = bpmFactor * zoomFactor;
+      const style = {
+        background: `
+            repeating-linear-gradient(
+              90deg,
+              var(--color-primary-light-grey) 0px,
+              var(--color-primary-light-grey) ${base - 1}px,
+              var(--color-primary-dark-grey) ${base}px
+            )`
+      };
       useEffect(() => {
         if (props.isPlaying) {
           setCurrentTime(currentTime + 0.009 * 4);
@@ -20,48 +30,6 @@ export default withTime(
           setCurrentTime(0);
         }
       }, [props.isPlaying, props.isStopped, currentTime]);
-
-      useEffect(() => {
-        // const style = {
-        //   background: `
-        //     repeating-linear-gradient(
-        //       90deg,
-        //       var(--color-primary-light-grey) 0px,
-        //       var(--color-primary-light-grey) 33px,
-        //       var(--color-primary-dark-grey) 34px,
-        //       var(--color-primary-light-grey) 35px,
-        //       var(--color-primary-light-grey) 35.4px
-        //     )`
-        // };
-        // const style90bpms = {
-        //   background: `
-        //     repeating-linear-gradient(
-        //       90deg,
-        //       var(--color-primary-light-grey) 0px,
-        //       var(--color-primary-light-grey) 10.5px,
-        //       var(--color-primary-dark-grey) 10px,
-        //       var(--color-primary-light-grey) 11px,
-        //       var(--color-primary-light-grey) 11.8px
-        //     )`
-        // };
-        const style = {
-          background: `
-            repeating-linear-gradient(
-              90deg,
-              var(--color-primary-light-grey) 0px,
-              var(--color-primary-light-grey) ${21.75 +
-                Number(props.bpm) * 0.375}px,
-              var(--color-primary-dark-grey) ${22 + Number(props.bpm) * 0.4}px,
-              var(--color-primary-light-grey) ${23 + Number(props.bpm) * 0.4}px,
-              var(--color-primary-light-grey) ${23.61 +
-                Number(props.bpm) * 0.393}px
-            )`
-        };
-
-        console.log(props);
-
-        setStyle(style);
-      }, [props.bpm]);
 
       return (
         <div className={props.className} style={style}>
@@ -147,7 +115,7 @@ export default withTime(
             <Slider
               value={props.horizontalZoom}
               min={1}
-              max={50}
+              max={200}
               step={2}
               aria-labelledby="label"
               onChange={(_, value) => props.setHorizontalZoom(value)}

@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { ListItem, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Waveform from '../waveform';
 import useAudioRegionsLoader from './useAudioRegionsLoader';
-import classnames from 'classnames';
 import './styles.css';
 
 const Track = props => {
@@ -49,4 +48,4 @@ const Track = props => {
   );
 };
 
-export default Track;
+export default memo(Track);

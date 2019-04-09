@@ -33,13 +33,13 @@ export default {
       })
     },
     {
-      bpm: '30',
+      bpm: '90',
       signature: '4/4',
       bar: 1,
       beat: 1,
       div: 1,
       tick: 1,
-      horizontalZoom: 50
+      horizontalZoom: 200
     }
   )
 };

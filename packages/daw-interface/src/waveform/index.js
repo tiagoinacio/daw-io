@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Waveform extends React.Component {
+export default class Waveform extends React.PureComponent {
   static defaultProps = {
     buffer: null,
     height: 100,
@@ -14,6 +14,7 @@ export default class Waveform extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.buffer);
     var width = (this.props.buffer.length / 10000) * this.props.horizontalZoom;
     var middle = this.props.height / 2;
     var channelData = this.props.buffer.getChannelData(0);
@@ -31,7 +32,7 @@ export default class Waveform extends React.Component {
     var middle = this.props.height / 2;
     var channelData = this.props.buffer.getChannelData(0);
     var step = Math.ceil(channelData.length / width);
-
+    console.log(nextProps, this.props);
     this.draw(width, step, middle, channelData, this.ctx);
   }
 
@@ -64,6 +65,7 @@ export default class Waveform extends React.Component {
   }
 
   render() {
+    console.log('here 2');
     return (
       <canvas
         ref={this.canvasRef}
