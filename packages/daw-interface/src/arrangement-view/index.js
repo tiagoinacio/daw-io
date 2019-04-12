@@ -9,8 +9,9 @@ export default withTime(
   withTransport(
     withAudio(props => {
       const [currentTime, setCurrentTime] = useState(0);
-      const zoomFactor = props.horizontalZoom / 200;
-      const bpmFactor = (90 * 589) / props.bpm;
+      const zoomFactor =
+        props.zoom.horizontal.current / props.zoom.horizontal.default;
+      const bpmFactor = (90 * 295) / props.bpm;
       const base = bpmFactor * zoomFactor;
       const style = {
         background: `
@@ -49,7 +50,7 @@ export default withTime(
               className="track"
               isPaused={props.isPaused}
               isPlaying={props.isStopped}
-              horizontalZoom={props.horizontalZoom}
+              zoom={props.zoom}
               audioContext={props.audioContext}
             />
           </Resizable>
@@ -68,7 +69,7 @@ export default withTime(
               className="track"
               isPaused={props.isPaused}
               isPlaying={props.isStopped}
-              horizontalZoom={props.horizontalZoom}
+              zoom={props.zoom}
               audioContext={props.audioContext}
             />
           </Resizable>
@@ -88,7 +89,7 @@ export default withTime(
               className="track"
               isPaused={props.isPaused}
               isPlaying={props.isStopped}
-              horizontalZoom={props.horizontalZoom}
+              zoom={props.zoom}
               audioContext={props.audioContext}
             />
           </Resizable>
@@ -107,16 +108,16 @@ export default withTime(
               className="track"
               isPaused={props.isPaused}
               isPlaying={props.isStopped}
-              horizontalZoom={props.horizontalZoom}
+              zoom={props.zoom}
               audioContext={props.audioContext}
             />
           </Resizable>
           <div className="horizontal-zoom">
             <Slider
-              value={props.horizontalZoom}
-              min={1}
-              max={200}
-              step={2}
+              value={props.zoom.horizontal.current}
+              min={props.zoom.horizontal.min}
+              max={props.zoom.horizontal.max}
+              step={props.zoom.horizontal.step}
               aria-labelledby="label"
               onChange={(_, value) => props.setHorizontalZoom(value)}
             />

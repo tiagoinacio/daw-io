@@ -14,29 +14,12 @@ export default class Waveform extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log(this.props.buffer);
-    var width = (this.props.buffer.length / 10000) * this.props.horizontalZoom;
     var middle = this.props.height / 2;
     var channelData = this.props.buffer.getChannelData(0);
-    var step = Math.ceil(channelData.length / width);
-
+    var step = Math.ceil(channelData.length / this.props.width);
     this.ctx = this.canvasRef.current.getContext('2d');
     this.ctx.fillStyle = this.props.color;
-    this.draw(width, step, middle, channelData, this.ctx);
-
-    this.props.onDone();
-  }
-
-  componentWillUpdate(nextProps) {
-    var width = (this.props.buffer.length / 10000) * nextProps.horizontalZoom;
-    var middle = this.props.height / 2;
-    var channelData = this.props.buffer.getChannelData(0);
-    var step = Math.ceil(channelData.length / width);
-    console.log(nextProps, this.props);
-    this.draw(width, step, middle, channelData, this.ctx);
-  }
-
-  componentDidUpdate() {
+    this.draw(this.props.width, step, middle, channelData, this.ctx);
     this.props.onDone();
   }
 
@@ -65,11 +48,10 @@ export default class Waveform extends React.PureComponent {
   }
 
   render() {
-    console.log('here 2');
     return (
       <canvas
         ref={this.canvasRef}
-        width={(this.props.buffer.length / 10000) * this.props.horizontalZoom}
+        width={this.props.width}
         height={this.props.height}
       />
     );
@@ -79,7 +61,7 @@ export default class Waveform extends React.PureComponent {
 Waveform.propTypes = {
   buffer: PropTypes.object.isRequired,
   height: PropTypes.number,
-  horizontalZoom: PropTypes.number.isRequired,
+  width: PropTypes.number,
   color: PropTypes.string,
   onDone: PropTypes.func
 };

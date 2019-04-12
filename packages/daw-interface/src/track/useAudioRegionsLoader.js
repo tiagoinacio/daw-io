@@ -54,6 +54,7 @@ export default props => {
     fileReader.readAsArrayBuffer(files[0]);
   };
   const onPlayPause = () => {
+    debugger;
     if (props.isPlaying && audioRegions) {
       let source = props.audioContext.createBufferSource();
       source.buffer = audioRegions;

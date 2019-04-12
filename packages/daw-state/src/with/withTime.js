@@ -6,7 +6,7 @@ import {
   getBeat,
   getDiv,
   getTick,
-  getHorizontalZoom,
+  getZoom,
   getSignature
 } from '../selectors/time';
 
@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
   beat: getBeat(state),
   div: getDiv(state),
   tick: getTick(state),
-  horizontalZoom: getHorizontalZoom(state),
+  zoom: getZoom(state),
   signature: getSignature(state)
 });
 

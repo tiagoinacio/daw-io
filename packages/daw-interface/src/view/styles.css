@@ -11,6 +11,7 @@ div.grid {
 
 .arrangementView {
   top: 154px !important;
+  overflow-x: scroll;
 }
 
 .markers {

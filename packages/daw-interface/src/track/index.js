@@ -22,6 +22,12 @@ const Track = props => {
 
   useEffect(onPlayPause, [props.isPlaying]);
 
+  let width = audioRegions && audioRegions.length / 100;
+
+  if (width > 32767) {
+    width = 32767;
+  }
+  console.log(audioRegions);
   return (
     <ListItem className={props.className}>
       {/* <div className={classnames('select', { active: props.isActive })} /> */}
@@ -32,13 +38,23 @@ const Track = props => {
         onDrop={onFileDrop}
       >
         {audioRegions && (
-          <Waveform
-            buffer={audioRegions}
-            horizontalZoom={props.horizontalZoom}
-            key={0}
-            color="cadetblue"
-            onDone={onDone}
-          />
+          <div
+            style={{
+              height: '100%',
+              display: 'flex',
+              transform: 'scaleY(3)',
+              transform: `scaleX(${props.zoom.horizontal.current /
+                props.zoom.horizontal.default})`,
+              transformOrigin: 'bottom left'
+            }}
+          >
+            <Waveform
+              width={width}
+              buffer={audioRegions}
+              color="cadetblue"
+              onDone={onDone}
+            />
+          </div>
         )}
         {isLoading && <CircularProgress />}
 

@@ -29,7 +29,13 @@ export default {
       }),
       SET_HORIZONTAL_ZOOM: (state, action) => ({
         ...state,
-        horizontalZoom: action.payload
+        zoom: {
+          ...state.zoom,
+          horizontal: {
+            ...state.zoom.horizontal,
+            current: action.payload
+          }
+        }
       })
     },
     {
@@ -39,7 +45,22 @@ export default {
       beat: 1,
       div: 1,
       tick: 1,
-      horizontalZoom: 200
+      zoom: {
+        horizontal: {
+          default: 200,
+          max: 1000,
+          current: 200,
+          min: 5,
+          step: 1
+        },
+        vertical: {
+          default: 50,
+          max: 1000,
+          current: 50,
+          min: 5,
+          step: 5
+        }
+      }
     }
   )
 };
