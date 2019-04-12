@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from './src/header';
 import View from './src/view';
-import State, { withAudio } from '@daw/state';
-
+import State, { withAudio, withTracks } from '@daw/state';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './styles.css';
 
@@ -30,20 +29,32 @@ const theme = createMuiTheme({
   }
 });
 
-const Interface = withAudio(props => {
-  useEffect(() => {
-    props.setAudioContext(new AudioContext());
-  }, []);
+const Interface = withTracks(
+  withAudio(props => {
+    useEffect(() => {
+      props.setAudioContext(new AudioContext());
+    }, []);
 
-  return (
-    <MuiThemeProvider theme={theme}>
-      <div className="interface">
-        <Header className="header" />
-        <View className="view" />
-      </div>
-    </MuiThemeProvider>
-  );
-});
+    useEffect(() => {
+      document.addEventListener('keydown', event => {
+        event.preventDefault();
+
+        if (event.ctrlKey && event.shiftKey && event.key === 'N') {
+          props.newTrack();
+        }
+      });
+    }, []);
+
+    return (
+      <MuiThemeProvider theme={theme}>
+        <div className="interface">
+          <Header className="header" />
+          <View className="view" />
+        </div>
+      </MuiThemeProvider>
+    );
+  })
+);
 
 export const App = () => (
   <State>

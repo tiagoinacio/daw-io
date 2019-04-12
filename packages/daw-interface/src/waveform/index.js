@@ -19,7 +19,31 @@ export default class Waveform extends React.PureComponent {
     var step = Math.ceil(channelData.length / this.props.width);
     this.ctx = this.canvasRef.current.getContext('2d');
     this.ctx.fillStyle = this.props.color;
-    this.draw(this.props.width, step, middle, channelData, this.ctx);
+    this.draw(
+      this.props.width,
+      step,
+      middle,
+      channelData,
+      this.ctx,
+      this.props.padding
+    );
+    this.props.onDone();
+  }
+
+  componentWillUpdate() {
+    var middle = this.props.height / 2;
+    var channelData = this.props.buffer.getChannelData(0);
+    var step = Math.ceil(channelData.length / this.props.width);
+    this.ctx = this.canvasRef.current.getContext('2d');
+    this.ctx.fillStyle = this.props.color;
+    this.draw(
+      this.props.width,
+      step,
+      middle,
+      channelData,
+      this.ctx,
+      this.props.padding
+    );
     this.props.onDone();
   }
 
@@ -27,7 +51,6 @@ export default class Waveform extends React.PureComponent {
     for (var i = 0; i < width; i += 1) {
       var min = 1.0;
       var max = -1.0;
-
       for (var j = 0; j < step; j += 1) {
         var datum = data[i * step + j];
 
@@ -63,5 +86,6 @@ Waveform.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   color: PropTypes.string,
-  onDone: PropTypes.func
+  onDone: PropTypes.func,
+  padding: PropTypes.number
 };

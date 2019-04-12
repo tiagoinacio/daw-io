@@ -4,12 +4,13 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import audio from './reducers/audio';
 import time from './reducers/time';
+import track from './reducers/tracks';
 import transport from './reducers/transport';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  combineReducers({ ...audio, ...transport, ...time }),
+  combineReducers({ ...audio, ...transport, ...time, ...track }),
   {},
   composeEnhancers(applyMiddleware(thunk))
 );

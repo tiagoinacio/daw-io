@@ -9,8 +9,8 @@ export default props => (
     <Grid item sm={12} className="markers">
       Markers
     </Grid>
-    <Grid item sm={2} className="grid">
-      <Sidebar className="sidebar" />
+    <Grid item sm={2} className="sidebar">
+      <Sidebar />
     </Grid>
     <Grid item sm={10} className="grid">
       <ArrangementView className="arrangementView" />

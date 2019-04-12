@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import audioBufferSlice from 'audiobuffer-slice';
 
 const getFiles = event => {
   const items = event.dataTransfer.items;
@@ -30,6 +31,12 @@ export default props => {
     // console.log('onDragEnter', event);
   };
 
+  const onResizeStop = (event, direction, ref, delta) => {
+    console.log(audioRegions);
+    props.audioContext.resume();
+    console.log(audioRegions.getChannelData(0).fill(0));
+  };
+
   const onFileDrop = event => {
     event.stopPropagation();
     event.preventDefault();
@@ -54,7 +61,6 @@ export default props => {
     fileReader.readAsArrayBuffer(files[0]);
   };
   const onPlayPause = () => {
-    debugger;
     if (props.isPlaying && audioRegions) {
       let source = props.audioContext.createBufferSource();
       source.buffer = audioRegions;
@@ -85,6 +91,7 @@ export default props => {
     onFileDrop,
     onPlayPause,
     onDone,
+    onResizeStop,
     isLoading
   };
 };

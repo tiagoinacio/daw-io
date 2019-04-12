@@ -2,19 +2,22 @@
 
 .sidebar {
   height: 100%;
+  padding: 0 !important;
   background-color: var(--color-primary-dark-grey);
 }
 
 div.grid {
   padding: 0 !important;
+  background-color: var(--color-primary-light-grey);
 }
 
 .arrangementView {
   top: 154px !important;
   overflow-x: scroll;
+  background-attachment: local !important;
 }
 
 .markers {
-  height: 10px;
+  height: 20px;
   background-color: var(--color-primary-dark-grey);
 }

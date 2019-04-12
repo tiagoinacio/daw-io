@@ -1,4 +1,5 @@
 import React, { useEffect, memo } from 'react';
+import Resizable from 're-resizable';
 import { ListItem, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Waveform from '../waveform';
@@ -13,7 +14,8 @@ const Track = props => {
     onFileDrop,
     isLoading,
     onPlayPause,
-    onDone
+    onDone,
+    onResizeStop
   } = useAudioRegionsLoader({
     audioContext: props.audioContext,
     isPlaying: props.isPlaying,
@@ -27,7 +29,7 @@ const Track = props => {
   if (width > 32767) {
     width = 32767;
   }
-  console.log(audioRegions);
+
   return (
     <ListItem className={props.className}>
       {/* <div className={classnames('select', { active: props.isActive })} /> */}
@@ -38,11 +40,17 @@ const Track = props => {
         onDrop={onFileDrop}
       >
         {audioRegions && (
-          <div
+          <Resizable
+            key={0}
+            enable={{
+              left: true,
+              right: true
+            }}
+            onResizeStop={onResizeStop}
             style={{
               height: '100%',
               display: 'flex',
-              transform: 'scaleY(3)',
+              overflow: 'hidden',
               transform: `scaleX(${props.zoom.horizontal.current /
                 props.zoom.horizontal.default})`,
               transformOrigin: 'bottom left'
@@ -54,7 +62,7 @@ const Track = props => {
               color="cadetblue"
               onDone={onDone}
             />
-          </div>
+          </Resizable>
         )}
         {isLoading && <CircularProgress />}
 
