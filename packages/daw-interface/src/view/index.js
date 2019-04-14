@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ArrangementView from '../arrangement-view';
 import Sidebar from '../sidebar';
 import { Grid } from '@material-ui/core';
 import './styles.css';
 
-export default props => (
+export default memo(props => (
   <Grid className={props.className} container spacing={16}>
     <Grid item sm={12} className="markers">
       Markers
@@ -16,4 +16,4 @@ export default props => (
       <ArrangementView className="arrangementView" />
     </Grid>
   </Grid>
-);
+));

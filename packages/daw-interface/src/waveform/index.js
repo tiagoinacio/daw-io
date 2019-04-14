@@ -73,6 +73,7 @@ export default class Waveform extends React.PureComponent {
   render() {
     return (
       <canvas
+        style={this.props.style}
         ref={this.canvasRef}
         width={this.props.width}
         height={this.props.height}
@@ -84,6 +85,7 @@ export default class Waveform extends React.PureComponent {
 Waveform.propTypes = {
   buffer: PropTypes.object.isRequired,
   height: PropTypes.number,
+  style: PropTypes.object,
   width: PropTypes.number,
   color: PropTypes.string,
   onDone: PropTypes.func,

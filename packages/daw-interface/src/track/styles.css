@@ -25,4 +25,31 @@ p.name {
   height: 100%;
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+
+.resize {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  background-color: var(--color-primary-light);
+  transform-origin: bottom left;
+}
+
+div.resizable-div-right {
+  border-left: 3px double var(--color-primary-light);
+  height: 100% !important;
+  background: var(--color-primary-light-grey);
+  z-index: 1;
+  position: absolute !important;
+  top: 0;
+  right: 0;
+}
+
+div.resizable-div-left {
+  border-right: 3px double var(--color-primary-light);
+  height: 100% !important;
+  background: var(--color-primary-light-grey);
+  z-index: 1;
+  position: absolute !important;
 }

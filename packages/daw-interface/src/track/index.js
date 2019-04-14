@@ -1,5 +1,6 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import Resizable from 're-resizable';
+import Draggable from 'react-draggable';
 import { ListItem, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Waveform from '../waveform';
@@ -14,21 +15,26 @@ const Track = props => {
     onFileDrop,
     isLoading,
     onPlayPause,
-    onDone,
-    onResizeStop
+    onDone
   } = useAudioRegionsLoader({
     audioContext: props.audioContext,
     isPlaying: props.isPlaying,
     isStopped: props.isStopped
   });
+  const [dragPosition, setDragPosition] = useState(0);
 
-  useEffect(onPlayPause, [props.isPlaying]);
+  const onDragStop = event => {
+    console.log(event);
+    setDragPosition(event.offsetX);
+  };
 
-  let width = audioRegions && audioRegions.length / 100;
+  let width = (audioRegions && audioRegions.length / 100) || 0;
 
   if (width > 32767) {
     width = 32767;
   }
+
+  useEffect(onPlayPause, [props.isPlaying]);
 
   return (
     <ListItem className={props.className}>
@@ -40,29 +46,68 @@ const Track = props => {
         onDrop={onFileDrop}
       >
         {audioRegions && (
-          <Resizable
-            key={0}
-            enable={{
-              left: true,
-              right: true
-            }}
-            onResizeStop={onResizeStop}
-            style={{
-              height: '100%',
-              display: 'flex',
-              overflow: 'hidden',
-              transform: `scaleX(${props.zoom.horizontal.current /
-                props.zoom.horizontal.default})`,
-              transformOrigin: 'bottom left'
-            }}
+          <Draggable
+            axis="x"
+            handle=".resize"
+            defaultPosition={{ x: 0, y: 0 }}
+            position={null}
+            scale={1}
+            onStop={onDragStop}
           >
-            <Waveform
-              width={width}
-              buffer={audioRegions}
-              color="cadetblue"
-              onDone={onDone}
-            />
-          </Resizable>
+            <div className="waveform">
+              <Resizable
+                key={0}
+                enable={{
+                  right: true
+                }}
+                minWidth={1}
+                className="resizable-div-left"
+              >
+                <div />
+              </Resizable>
+              <Resizable
+                key={1}
+                enable={{
+                  left: false
+                }}
+                className="resize"
+                maxWidth={width}
+                minWidth={1}
+                style={{
+                  left:
+                    dragPosition *
+                      (props.zoom.horizontal.current /
+                        props.zoom.horizontal.default) -
+                    dragPosition,
+                  transform: `scaleX(${props.zoom.horizontal.current /
+                    props.zoom.horizontal.default})`
+                }}
+              >
+                <Waveform
+                  width={width}
+                  buffer={audioRegions}
+                  color="cadetblue"
+                  onDone={onDone}
+                />
+              </Resizable>
+              <Resizable
+                key={2}
+                style={{
+                  transform: `translateX(${(props.zoom.horizontal.current /
+                    props.zoom.horizontal.default) *
+                    width -
+                    width}px`
+                }}
+                enable={{
+                  left: true
+                }}
+                minWidth={1}
+                className="resizable-div-right"
+              >
+                <div />
+              </Resizable>
+            </div>
+          </Draggable>
         )}
         {isLoading && <CircularProgress />}
 

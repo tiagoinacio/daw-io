@@ -10,7 +10,7 @@ const ArrangementView = props => {
   const [currentTime, setCurrentTime] = useState(0);
   const zoomFactor =
     props.zoom.horizontal.current / props.zoom.horizontal.default;
-  const bpmFactor = (90 * 295) / props.bpm;
+  const bpmFactor = (30 * 327) / props.bpm;
   const base = bpmFactor * zoomFactor;
   const style = {
     background: `

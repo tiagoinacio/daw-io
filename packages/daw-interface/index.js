@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
+import { compose } from 'redux';
 import Header from './src/header';
 import View from './src/view';
-import State, { withAudio, withTracks } from '@daw/state';
+import State, { withAudio, withTracks, withTime } from '@daw/state';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import InputHandler from '@daw/input';
 import './styles.css';
 
 const theme = createMuiTheme({
@@ -29,35 +31,31 @@ const theme = createMuiTheme({
   }
 });
 
-const Interface = withTracks(
-  withAudio(props => {
-    useEffect(() => {
-      props.setAudioContext(new AudioContext());
-    }, []);
+const Interface = props => {
+  useEffect(() => {
+    props.setAudioContext(new AudioContext());
+  }, []);
 
-    useEffect(() => {
-      document.addEventListener('keydown', event => {
-        event.preventDefault();
-
-        if (event.ctrlKey && event.shiftKey && event.key === 'N') {
-          props.newTrack();
-        }
-      });
-    }, []);
-
-    return (
-      <MuiThemeProvider theme={theme}>
+  return (
+    <MuiThemeProvider theme={theme}>
+      <InputHandler onNewTrack={props.newTrack} onZoom={props.onZoom}>
         <div className="interface">
           <Header className="header" />
           <View className="view" />
         </div>
-      </MuiThemeProvider>
-    );
-  })
-);
+      </InputHandler>
+    </MuiThemeProvider>
+  );
+};
+
+const ConnectedInterface = compose(
+  withTime,
+  withTracks,
+  withAudio
+)(Interface);
 
 export const App = () => (
   <State>
-    <Interface />
+    <ConnectedInterface />
   </State>
 );

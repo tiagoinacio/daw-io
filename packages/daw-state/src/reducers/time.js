@@ -36,7 +36,27 @@ export default {
             current: action.payload
           }
         }
-      })
+      }),
+      ON_ZOOM: (state, action) => {
+        const zoom = action.payload + state.zoom.horizontal.current;
+        const zoomBoundMax =
+          zoom > state.zoom.horizontal.max ? state.zoom.horizontal.max : zoom;
+        const zoomBound =
+          zoomBoundMax < state.zoom.horizontal.min
+            ? state.zoom.horizontal.min
+            : zoomBoundMax;
+
+        return {
+          ...state,
+          zoom: {
+            ...state.zoom,
+            horizontal: {
+              ...state.zoom.horizontal,
+              current: zoomBound
+            }
+          }
+        };
+      }
     },
     {
       bpm: '90',

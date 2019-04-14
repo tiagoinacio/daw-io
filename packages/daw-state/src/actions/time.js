@@ -7,5 +7,6 @@ export default {
   setTick: createAction('SET_TICK'),
   setBeat: createAction('SET_BEAT'),
   setDiv: createAction('SET_DIV'),
-  setHorizontalZoom: createAction('SET_HORIZONTAL_ZOOM')
+  setHorizontalZoom: createAction('SET_HORIZONTAL_ZOOM'),
+  onZoom: createAction('ON_ZOOM')
 };
