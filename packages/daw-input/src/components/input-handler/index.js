@@ -15,8 +15,8 @@ export default ({ children, onNewTrack, onZoom }) => {
     document.addEventListener(
       'wheel',
       event => {
-        event.preventDefault();
-        event.stopPropagation();
+        // event.preventDefault();
+        // event.stopPropagation();
 
         onZoom(-event.deltaY);
       },

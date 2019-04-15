@@ -38,7 +38,7 @@ const Interface = props => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <InputHandler onNewTrack={props.newTrack} onZoom={props.onZoom}>
+      <InputHandler onNewTrack={props.newTrack} onZoom={() => {}}>
         <div className="interface">
           <Header className="header" />
           <View className="view" />

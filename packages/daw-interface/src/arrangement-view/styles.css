@@ -30,6 +30,5 @@ div[role='slider'] {
 }
 
 .resizable {
-  width: 2000px !important;
   display: table;
 }

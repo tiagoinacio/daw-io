@@ -9,12 +9,17 @@
 div.grid {
   padding: 0 !important;
   background-color: var(--color-primary-light-grey);
+  overflow-x: scroll;
 }
 
 .arrangementView {
   top: 154px !important;
-  overflow-x: scroll;
+  transform-origin: left;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   background-attachment: local !important;
+  background-size: cover;
+  background-position: center;
 }
 
 .markers {
