@@ -8,33 +8,20 @@ import './styles.css';
 
 const ArrangementView = props => {
   const [currentTime, setCurrentTime] = useState(0);
-  const zoomFactor =
-    props.zoom.horizontal.current / props.zoom.horizontal.default;
   // 90 bpms
   // 1 bar (1 bar = 4 beats)
   // 4 beats (1 beat = 4 divisions)
   // 16 division (1 division = 240 ticks)
   // 3840 ticks
-  const bpmFactor = (90 * 294) / props.bpm;
-  const ticks = bpmFactor;
+  const ticks = (90 * 294) / props.bpm;
   const divisions = ticks;
   const beats = divisions;
   const bar = 4 * beats;
-  const resolution = bar * beats * divisions;
-  const base = bpmFactor * zoomFactor;
-  const scaleX = (
-    props.zoom.horizontal.current / props.zoom.horizontal.default
-  ).toFixed(2);
+  const scaleX = props.zoom.horizontal.derived;
   const width = 10000 / scaleX;
   const style = {
-    transform: `scaleX(
-      ${scaleX}
-    )`,
+    transform: `scaleX(${scaleX})`,
     width: `${width}px`,
-    /* bar 3836 / 4 = 480 */
-    /* beat 960 / 4 = 240 */
-    /* division 480 / 4 = 120 */
-    /* tick 240 / 4 = 60 */
     background: `
     repeating-linear-gradient(
       90deg,
@@ -88,6 +75,7 @@ const ArrangementView = props => {
             }}
           >
             <Track
+              setAudioRegions={props.setAudioRegions}
               backgroundColor="#2C3224"
               index={index}
               className="track"

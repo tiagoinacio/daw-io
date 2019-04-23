@@ -7,9 +7,14 @@ export default {
         ...state,
         context: action.payload,
         source: action.payload.createBufferSource()
+      }),
+      SET_AUDIO_BUFFER: (state, action) => ({
+        ...state,
+        buffer: [...state.buffer, action.payload]
       })
     },
     {
+      buffer: [],
       context: null,
       source: null
     }

@@ -32,14 +32,14 @@ p.name {
   height: 100% !important;
   display: flex;
   overflow: hidden;
-  background-color: var(--color-primary-light);
+  background-color: transparent;
   transform-origin: bottom left;
 }
 
 div.resizable-div-right {
   border-left: 3px double var(--color-primary-light);
   height: 100% !important;
-  background: var(--color-primary-light-grey);
+  background-color: transparent;
   z-index: 1;
   position: absolute !important;
   top: 0;
@@ -49,7 +49,7 @@ div.resizable-div-right {
 div.resizable-div-left {
   border-right: 3px double var(--color-primary-light);
   height: 100% !important;
-  background: var(--color-primary-light-grey);
+  background-color: transparent;
   z-index: 1;
   position: absolute !important;
 }

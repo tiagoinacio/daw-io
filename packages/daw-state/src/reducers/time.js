@@ -33,7 +33,8 @@ export default {
           ...state.zoom,
           horizontal: {
             ...state.zoom.horizontal,
-            current: action.payload
+            current: action.payload,
+            derived: (action.payload / state.zoom.horizontal.default).toFixed(2)
           }
         }
       }),
@@ -52,7 +53,8 @@ export default {
             ...state.zoom,
             horizontal: {
               ...state.zoom.horizontal,
-              current: zoomBound
+              current: zoomBound,
+              derived: (zoomBound / state.zoom.horizontal.default).toFixed(2)
             }
           }
         };
@@ -70,6 +72,7 @@ export default {
           default: 200,
           max: 1000,
           current: 200,
+          derived: 1,
           min: 5,
           step: 1
         },
@@ -77,6 +80,7 @@ export default {
           default: 50,
           max: 1000,
           current: 50,
+          derived: 1,
           min: 5,
           step: 5
         }

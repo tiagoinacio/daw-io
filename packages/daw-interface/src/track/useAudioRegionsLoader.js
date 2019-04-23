@@ -21,19 +21,15 @@ export default props => {
   const onDragOver = event => {
     event.stopPropagation();
     event.preventDefault();
-    // console.log('onDragEnter', event);
   };
 
   const onDragEnter = event => {
     event.stopPropagation();
     event.preventDefault();
-    // console.log('onDragEnter', event);
   };
 
   const onResizeStop = (event, direction, ref, delta) => {
-    console.log(audioRegions);
     props.audioContext.resume();
-    console.log(audioRegions.getChannelData(0).fill(0));
   };
 
   const onFileDrop = event => {
@@ -60,7 +56,6 @@ export default props => {
     fileReader.readAsArrayBuffer(files[0]);
   };
   const onPlayPause = () => {
-    debugger;
     if (props.isPlaying && audioRegions) {
       let source = props.audioContext.createBufferSource();
       source.buffer = audioRegions;

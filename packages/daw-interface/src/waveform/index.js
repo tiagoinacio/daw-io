@@ -1,41 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect, memo, useState } from 'react';
 
-export default class Waveform extends React.PureComponent {
-  static defaultProps = {
-    buffer: null,
-    height: 100,
-    color: 'black'
-  };
+export default memo(props => {
+  const canvasRef = useRef(null);
+  const [ctx, setCtx] = useState(null);
+  const middle = props.height / 2;
 
-  constructor() {
-    super();
-    this.canvasRef = React.createRef();
-  }
+  const draw = ctx => {
+    const step = Math.ceil(props.channelData.length / props.width);
 
-  componentDidMount() {
-    var middle = this.props.height / 2;
-    var channelData = this.props.buffer.getChannelData(0);
-    var step = Math.ceil(channelData.length / this.props.width);
-    this.ctx = this.canvasRef.current.getContext('2d');
-    this.ctx.fillStyle = this.props.color;
+    ctx.fillStyle = props.color;
 
-    this.draw(
-      this.props.width,
-      step,
-      middle,
-      channelData,
-      this.ctx,
-      this.props.padding
-    );
-  }
-
-  draw(width, step, middle, data, ctx) {
-    for (var i = 0; i < width; i += 1) {
+    for (var i = 0; i < props.width; i += 1) {
       var min = 1.0;
       var max = -1.0;
       for (var j = 0; j < step; j += 1) {
-        var datum = data[i * step + j];
+        var datum = props.channelData[i * step + j];
 
         if (datum < min) {
           min = datum;
@@ -51,25 +30,33 @@ export default class Waveform extends React.PureComponent {
         );
       }
     }
-  }
+  };
 
-  render() {
-    return (
-      <canvas
-        style={this.props.style}
-        ref={this.canvasRef}
-        width={this.props.width}
-        height={this.props.height}
-      />
-    );
-  }
-}
+  useEffect(() => {
+    const ctx = canvasRef.current.getContext('2d');
 
-Waveform.propTypes = {
-  buffer: PropTypes.object.isRequired,
-  height: PropTypes.number,
-  style: PropTypes.object,
-  width: PropTypes.number,
-  color: PropTypes.string,
-  padding: PropTypes.number
-};
+    draw(ctx);
+
+    ctx.save();
+    setCtx(ctx);
+  }, []);
+
+  useEffect(() => {
+    if (ctx) {
+      console.log('here');
+      ctx.clearRect(0, 0, props.width, props.height);
+
+      ctx.restore();
+      draw(ctx);
+    }
+  }, [props.channelData]);
+
+  return (
+    <canvas
+      style={props.style}
+      ref={canvasRef}
+      width={props.width}
+      height={props.height}
+    />
+  );
+});

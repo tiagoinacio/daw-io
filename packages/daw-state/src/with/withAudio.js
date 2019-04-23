@@ -1,16 +1,13 @@
 import { connect } from 'react-redux';
-import { setAudioContext } from '../actions/audio';
-import { getAudioContext } from '../selectors/audio';
-
-const mapDispatchToProps = dispatch => ({
-  setAudioContext: context => dispatch(setAudioContext(context))
-});
+import audioActions from '../actions/audio';
+import { getAudioContext, getAudioBuffer } from '../selectors/audio';
 
 const mapStateToProps = state => ({
-  audioContext: getAudioContext(state)
+  audioContext: getAudioContext(state),
+  audioBuffer: getAudioBuffer(state)
 });
 
 export const withAudio = connect(
   mapStateToProps,
-  mapDispatchToProps
+  audioActions
 );

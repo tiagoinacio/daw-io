@@ -1,3 +1,6 @@
 import { createAction } from 'redux-actions';
 
-export const setAudioContext = createAction('SET_AUDIO_CONTEXT');
+export default {
+  setAudioContext: createAction('SET_AUDIO_CONTEXT'),
+  setAudioRegions: createAction('SET_AUDIO_BUFFER')
+};

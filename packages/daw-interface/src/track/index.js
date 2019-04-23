@@ -22,10 +22,26 @@ const Track = props => {
   });
   const [dragPosition, setDragPosition] = useState(0);
   const onDragStop = event => {
-    console.log(event);
     setDragPosition(event.offsetX);
   };
+
   useEffect(onPlayPause, [props.isPlaying]);
+  useEffect(() => {
+    if (audioRegions) {
+      props.setAudioRegions(audioRegions.buffer, {
+        start: 0,
+        end: audioRegions.length - 1
+      });
+    }
+  }, [audioRegions]);
+
+  // const pointsPerBar = 29529.3;
+
+  const onResizeStop = (e, direction, ref, d) => {
+    props.setAudioRegions(audioRegions.buffer, {
+      start: audioRegions.start + d.width * 100
+    });
+  };
 
   let width = audioRegions && audioRegions.length / 100;
 
@@ -43,9 +59,7 @@ const Track = props => {
         onDrop={onFileDrop}
         style={{
           transformOrigin: 'left',
-          transform: `scaleX(${(
-            props.zoom.horizontal.current / props.zoom.horizontal.default
-          ).toFixed(2)})`
+          transform: `scaleX(${props.zoom.horizontal.derived})`
         }}
       >
         {audioRegions && (
@@ -57,24 +71,19 @@ const Track = props => {
             handle=".resize"
             defaultPosition={{ x: 0, y: 0 }}
             position={null}
-            scale={
-              props.zoom.horizontal.current / props.zoom.horizontal.default
-            }
+            scale={Number(props.zoom.horizontal.derived)}
             defaultClassName="draggable"
             onStop={onDragStop}
           >
             <div>
               <div className="waveform">
                 <Resizable
+                  onResizeStop={onResizeStop}
                   key={0}
                   enable={{
                     right: true
                   }}
-                  resizeRatio={
-                    (props.zoom.horizontal.default /
-                      props.zoom.horizontal.current) *
-                    2
-                  }
+                  resizeRatio={1 / props.zoom.horizontal.derived}
                   minWidth={1}
                   className="resizable-div-left"
                 >
@@ -90,8 +99,10 @@ const Track = props => {
                   minWidth={1}
                 >
                   <Waveform
+                    height={100}
+                    end={100}
                     width={width}
-                    buffer={audioRegions}
+                    channelData={audioRegions.getChannelData(0)}
                     color="cadetblue"
                   />
                 </Resizable>
