@@ -1,92 +1,78 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 
-const getFiles = event => {
-  const items = event.dataTransfer.items;
+// export default props => {
+//   const [sources, setAudioSource] = useState(null);
+//   const [audioRegions, setAudioRegions] = useState(null);
+//   const [isLoading, setIsLoading] = useState(false);
 
-  if (items) {
-    return Object.keys(items)
-      .filter((_, index) => items[index].kind === 'file')
-      .map(index => items[index].getAsFile());
-  }
+//   const onDragOver = event => {
+//     event.stopPropagation();
+//     event.preventDefault();
+//   };
 
-  // Use DataTransfer interface to access the file(s)
-  return event.dataTransfer.files;
-};
+//   const onDragEnter = event => {
+//     event.stopPropagation();
+//     event.preventDefault();
+//   };
 
-export default props => {
-  const [sources, setAudioSource] = useState(null);
-  const [audioRegions, setAudioRegions] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+//   const onResizeStop = (event, direction, ref, delta) => {
+//     props.audioContext.resume();
+//   };
 
-  const onDragOver = event => {
-    event.stopPropagation();
-    event.preventDefault();
-  };
+//   const onFileDrop = event => {
+//     event.stopPropagation();
+//     event.preventDefault();
 
-  const onDragEnter = event => {
-    event.stopPropagation();
-    event.preventDefault();
-  };
+//     setIsLoading(true);
 
-  const onResizeStop = (event, direction, ref, delta) => {
-    props.audioContext.resume();
-  };
+//     const files = getFiles(event);
+//     const fileReader = new FileReader();
 
-  const onFileDrop = event => {
-    event.stopPropagation();
-    event.preventDefault();
+//     fileReader.onload = function(e) {
+//       const fileResult = e.target.result;
 
-    setIsLoading(true);
+//       props.audioContext.decodeAudioData(fileResult, buffer => {
+//         setAudioRegions(buffer);
+//       });
+//     };
 
-    const files = getFiles(event);
-    const fileReader = new FileReader();
+//     fileReader.onerror = function(e) {
+//     };
 
-    fileReader.onload = function(e) {
-      const fileResult = e.target.result;
+//     fileReader.readAsArrayBuffer(files[0]);
+//   };
+//   const onPlayPause = () => {
+//     if (props.isPlaying && audioRegions) {
+//       let source = props.audioContext.createBufferSource();
+//       source.buffer = audioRegions;
 
-      props.audioContext.decodeAudioData(fileResult, buffer => {
-        setAudioRegions(buffer);
-      });
-    };
+//       setAudioSource(source);
 
-    fileReader.onerror = function(e) {
-      console.log(e);
-    };
+//       source.connect(props.audioContext.destination);
 
-    fileReader.readAsArrayBuffer(files[0]);
-  };
-  const onPlayPause = () => {
-    if (props.isPlaying && audioRegions) {
-      let source = props.audioContext.createBufferSource();
-      source.buffer = audioRegions;
+//       if (props.audioContext.state !== 'running') {
+//         props.audioContext.resume();
+//       } else {
+//         props.audioContext.resume();
+//         source.start();
+//       }
+//     } else if (sources && !props.isPlaying) {
+//       props.audioContext.suspend();
+//     }
+//   };
 
-      setAudioSource(source);
+//   const onDone = () => {
+//     setIsLoading(false);
+//   };
 
-      source.connect(props.audioContext.destination);
-
-      if (props.audioContext.state !== 'running') {
-        props.audioContext.resume();
-      } else {
-        props.audioContext.resume();
-        source.start();
-      }
-    } else if (sources && !props.isPlaying) {
-      props.audioContext.suspend();
-    }
-  };
-
-  const onDone = () => {
-    setIsLoading(false);
-  };
-
-  return {
-    audioRegions,
-    onDragOver,
-    onDragEnter,
-    onFileDrop,
-    onPlayPause,
-    onDone,
-    onResizeStop,
-    isLoading
-  };
-};
+//   return {
+//     audioRegions,
+//     onDragOver,
+//     onDragEnter,
+//     onFileDrop,
+//     onPlayPause,
+//     onDone,
+//     onResizeStop,
+//     isLoading
+//   };
+// };

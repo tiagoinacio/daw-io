@@ -1,214 +1,143 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
+import { withScene, withTime } from '@daw/state';
+import useZoom from './useZoom';
+import useScroll from './useScroll';
+import useCamera from './useCamera';
+import DroppableContainer from '../droppable-container';
+import addWaveforms from '../waveforms';
+import addTracks from '../tracks';
 import * as THREE from 'three';
+import addArrangementBackground from '../arrangement-background';
+import './styles.css';
 
 const ThreeScene = props => {
   const ref = useRef(null);
-  const [env, setEnv] = useState(null);
-  let frameId;
+  const camera = useCamera({
+    ref,
+    arrangement: props.arrangement,
+    zoom: props.zoom,
+    scene: props.scene
+  });
+  const { zoomValueX, zoomValueY, onZoomY, onZoomX } = useZoom({
+    zoom: props.zoom,
+    camera,
+    ref
+  });
+  const { x, y } = useScroll({
+    zoom: props.zoom,
+    ref,
+    maxY: 0
+  });
 
-  const start = () => {
-    if (!frameId) {
-      frameId = requestAnimationFrame(animate);
-    }
-  };
-
-  const stop = () => {
-    cancelAnimationFrame(frameId);
-  };
-
-  const animate = () => {
-    renderScene();
-    frameId = window.requestAnimationFrame(animate);
-  };
+  var raycaster = new THREE.Raycaster(); // create once
+  var mouse = new THREE.Vector2(); // create once
 
   const renderScene = () => {
-    env.renderer.render(env.scene, env.camera);
+    props.renderer.render(props.scene, camera);
   };
 
-  const drawTimeDomain = amplitudeArray => {
-    // for (var i = 0; i < amplitudeArray.length; i++) {
-    //   var value = amplitudeArray[i] * 2;
-    //   var y = 0.01 * value;
-
-    //   env.waveform.geom.vertices[i].setX((5 / amplitudeArray.length) * i - 2.5);
-    //   env.waveform.geom.vertices[i].setY(y);
-    //   /*env.waveform.geom.vertices[i].setZ((Math.random()*Math.abs(y))-(Math.abs(y)/2));*/
-    // }
-    for (var i = 0; i < amplitudeArray.length; i += 1) {
-      var min = 1.0;
-      var max = -1.0;
-      for (var j = 0; j < 1; j += 1) {
-        var datum = amplitudeArray[i * 1 + j];
-
-        if (datum < min) {
-          min = datum;
-        } else if (datum > max) {
-          max = datum;
-        }
-
-        env.waveform.geom.vertices[i].setX(i);
-        env.waveform.geom.vertices[i].setY((1 + min) * 100); // substitue 100 with height / 2
-      }
+  const onMouseMove = event => {
+    mouse.x = (event.clientX / ref.current.clientWidth) * 2 - 1;
+    mouse.y = -(event.clientY / ref.current.clientHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(props.objects, true);
+    // console.log(mouse.x, mouse.y, props.objects, intersects);
+    if (intersects[0]) {
+      Object.keys(intersects).forEach(mesh => {
+        console.log(mesh);
+      });
     }
-    env.waveform.geom.verticesNeedUpdate = true;
   };
 
   useEffect(() => {
-    const env = {
-      renderer: new THREE.WebGLRenderer(),
-      scene: new THREE.Scene(),
-      camera: new THREE.PerspectiveCamera(
-        75,
-        ref.current.clientWidth / ref.current.clientHeight,
-        0.1,
-        10000
-      ),
-      cameraTrack: new THREE.Group(),
-      lights: {
-        ambient: new THREE.AmbientLight(0x444444),
-        directional: new THREE.DirectionalLight(0xffeedd)
-      },
-      floor: {
-        geom: new THREE.PlaneGeometry(5, 5, 6, 6),
-        material: new THREE.MeshBasicMaterial({
-          color: 0x444444,
-          wireframe: true
-        })
-      },
-      volume: {
-        geom: new THREE.BoxGeometry(5, 5, 5),
-        material: new THREE.MeshBasicMaterial({
-          color: 0x02082a,
-          wireframe: true
-        })
-      },
-      target: new THREE.Vector3(0, 1, 0),
-      waveform: {
-        geom: new THREE.Geometry(),
-        material: new THREE.LineBasicMaterial({
-          color: 0x733738
-        })
-      }
-    };
+    ref.current.appendChild(props.renderer.domElement);
 
-    setEnv(env);
+    return () => {
+      ref.current.removeChild(props.renderer.domElement);
+    };
   }, []);
 
   useEffect(() => {
-    if (env) {
-      ref.current.appendChild(env.renderer.domElement);
+    if (camera) {
+      camera.position.set(ref.current.clientWidth / 2, 0, 1);
 
-      window.scene = env.scene;
+      camera.updateProjectionMatrix();
 
-      start();
+      props.scene.add(camera);
 
-      return () => {
-        stop();
-        ref.current.removeChild(env.renderer.domElement);
-      };
+      props.setCamera(camera);
+
+      addArrangementBackground(props);
+
+      props.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+      props.renderer.setSize(ref.current.clientWidth, ref.current.clientHeight);
+
+      requestAnimationFrame(renderScene);
     }
-  }, [env]);
+  }, [camera]);
 
   useEffect(() => {
-    if (props.audioContext && env) {
-      env.floor.mesh = new THREE.Mesh(env.floor.geom, env.floor.material);
-      env.volume.mesh = new THREE.Mesh(env.volume.geom, env.volume.material);
-      env.waveform.mesh = new THREE.Line(
-        env.waveform.geom,
-        env.waveform.material
-      );
-
-      // Create the array for the data values
-      const amplitudeArray =
-        (props.audioBuffer[0] && props.audioBuffer[0].getChannelData(0)) || []; //new Uint8Array(analyserNode.frequencyBinCount);
-
-      for (var a = 0; a < amplitudeArray.length; a++) {
-        // TODO was 1024 instead of amplitudeArray
-        env.waveform.geom.vertices.push(
-          new THREE.Vector3((5 / amplitudeArray.length) * a - 2.5, 2.5, 0)
-        );
-      }
-
-      env.cameraTrack.rotation.y = -0.25;
-      env.camera.position.z = 8;
-      env.camera.position.y = 6.8;
-      env.cameraTrack.rotation.z = -0.5;
-      env.camera.lookAt(env.target);
-      env.lights.directional.position.set(0, 0, 1).normalize();
-      env.volume.mesh.position.y = 2.5;
-      env.floor.mesh.rotation.x = (90 * Math.PI) / 180;
-
-      //Add those things to the scene
-      env.cameraTrack.add(env.camera);
-      env.scene.add(env.cameraTrack);
-      //env.scene.add(env.floor.mesh);
-      env.scene.add(env.volume.mesh);
-      env.scene.add(env.lights.ambient);
-      env.scene.add(env.lights.directional);
-      env.scene.add(env.waveform.mesh);
-
-      const sampleSize = 1024;
-      const sourceNode = props.audioContext.createBufferSource();
-      const analyserNode = props.audioContext.createAnalyser();
-      const javascriptNode = props.audioContext.createScriptProcessor(
-        sampleSize,
-        1,
-        1
-      );
-
-      // Now connect the nodes together
-      sourceNode.connect(props.audioContext.destination);
-      sourceNode.connect(analyserNode);
-      sourceNode.buffer = props.audioBuffer[0];
-      analyserNode.connect(javascriptNode);
-      javascriptNode.connect(props.audioContext.destination);
-
-      if (amplitudeArray.length) {
-        drawTimeDomain(amplitudeArray);
-        console.log('finish');
-      }
+    if (camera) {
+      camera.position.set(x, y, 1);
+      camera.updateProjectionMatrix();
+      requestAnimationFrame(renderScene);
     }
-  });
+  }, [x, y]);
 
-  // componentWillUpdate(nextProps) {
-  //   const listener = new THREE.AudioListener();
-  //   this.camera.add(listener);
-  //   const sound = new THREE.Audio(listener);
-  //   var fftSize = 128;
-  //   var audioLoader = new THREE.AudioLoader();
+  useEffect(() => {
+    if (camera) {
+      addTracks({
+        ...props,
+        height: ref.current.clientHeight
+      });
+      requestAnimationFrame(renderScene);
+    }
+  }, [props.tracks]);
 
-  //   if (nextProps.audioBuffer.length) {
-  //     console.log(nextProps.audioBuffer);
-  //     sound.setBuffer(nextProps.audioBuffer[0]);
-  //     sound.setVolume(0.5);
-  //     sound.play();
+  useEffect(() => {
+    if (camera) {
+      camera.updateProjectionMatrix();
+      requestAnimationFrame(renderScene);
+    }
+  }, [zoomValueX, zoomValueY]);
 
-  //     // create an AudioAnalyser, passing in the sound and desired fftSize
-  //     var analyser = new THREE.AudioAnalyser(sound, 32);
-  //     console.log(analyser.data);
-  //     // get the average frequency of the sound
-  //     // var data = analyser.getAverageFrequency();
-  //     var uniforms = {
-  //       tAudioData: {
-  //         value: new THREE.DataTexture(
-  //           analyser.data,
-  //           fftSize / 2,
-  //           1,
-  //           THREE.LuminanceFormat
-  //         )
-  //       }
-  //     };
-  //     var material = new THREE.ShaderMaterial({
-  //       uniforms: uniforms
-  //       //   vertexShader: document.getElementById('vertexShader').textContent,
-  //       //   fragmentShader: document.getElementById('fragmentShader').textContent
-  //     });
-  //     var geometry = new THREE.PlaneBufferGeometry(1, 1);
-  //     var mesh = new THREE.Mesh(geometry, material);
-  //     this.scene.add(mesh);
-  //   }
+  useEffect(() => {
+    if (camera) {
+      addWaveforms({ ...props, height: ref.current.clientHeight });
+      requestAnimationFrame(renderScene);
+    }
+  }, [props.audioBuffer]);
 
-  return <div ref={ref} style={{ width: '800px', height: '300px' }} />;
+  return (
+    <Fragment>
+      <DroppableContainer
+        onMouseMove={onMouseMove}
+        forwardedRef={ref}
+        style={{ width: '100%', height: '100%' }}
+      />
+      <label id="horizontal-zoom">
+        <input
+          type="range"
+          min={props.zoom.horizontal.min}
+          max={props.zoom.horizontal.max}
+          value={zoomValueX}
+          onChange={onZoomX}
+          step={props.zoom.horizontal.step}
+        />
+      </label>
+      <label id="vertical-zoom">
+        <input
+          type="range"
+          min={props.zoom.vertical.min}
+          max={props.zoom.vertical.max}
+          value={zoomValueY}
+          onChange={onZoomY}
+          step={props.zoom.vertical.step}
+        />
+      </label>
+    </Fragment>
+  );
 };
 
-export default ThreeScene;
+export default withTime(withScene(ThreeScene));

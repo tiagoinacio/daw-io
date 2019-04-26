@@ -13,7 +13,6 @@ const Track = props => {
     onDragOver,
     onDragEnter,
     onFileDrop,
-    isLoading,
     onPlayPause
   } = useAudioRegionsLoader({
     audioContext: props.audioContext,

@@ -43,7 +43,6 @@ export default memo(props => {
 
   useEffect(() => {
     if (ctx) {
-      console.log('here');
       ctx.clearRect(0, 0, props.width, props.height);
 
       ctx.restore();

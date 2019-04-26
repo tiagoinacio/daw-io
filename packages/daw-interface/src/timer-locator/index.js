@@ -51,7 +51,7 @@ export default withTime(props => (
           <Grid item className="value">
             <TextField
               className="input"
-              value={props.bar}
+              value={props.bars}
               onChange={event => props.setBar(event.target.value)}
               type="number"
             />
@@ -67,7 +67,7 @@ export default withTime(props => (
           <Grid item className="value">
             <TextField
               className="input"
-              value={props.beat}
+              value={props.beats}
               onChange={event => props.setBeat(event.target.value)}
               type="number"
             />
@@ -83,7 +83,7 @@ export default withTime(props => (
           <Grid item className="value">
             <TextField
               className="input"
-              value={props.div}
+              value={props.divs}
               onChange={event => props.setDiv(event.target.value)}
               type="number"
             />
@@ -99,7 +99,7 @@ export default withTime(props => (
           <Grid item className="value">
             <TextField
               className="input"
-              value={props.tick}
+              value={props.ticks}
               onChange={event => props.setTick(event.target.value)}
               type="number"
             />

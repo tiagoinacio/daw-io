@@ -1,89 +1,81 @@
 import { handleActions } from 'redux-actions';
 
+const defaultBpm = 90;
+
 export default {
   time: handleActions(
     {
       SET_BPM: (state, action) => ({
         ...state,
-        bpm: action.payload
+        current: {
+          ...state.current,
+          bpm: action.payload
+        },
+        arrangement: {
+          ...state.arrangement,
+          ticks:
+            (state.arrangement.secondsPerMinutes / action.payload) *
+            state.arrangement.sampleRate,
+          width:
+            (state.arrangement.secondsPerMinutes / action.payload) *
+            state.arrangement.sampleRate *
+            state.arrangement.beats *
+            state.arrangement.bars // bars * ticks * division
+        }
       }),
       SET_SIGNATURE: (state, action) => ({
         ...state,
-        signature: action.payload
+        current: {
+          ...state.current,
+          signature: action.payload
+        }
       }),
       SET_BAR: (state, action) => ({
         ...state,
-        bar: action.payload
+        current: {
+          ...state.current,
+          bar: action.payload
+        }
       }),
       SET_BEAT: (state, action) => ({
         ...state,
-        beat: action.payload
+        current: {
+          ...state.current,
+          beat: action.payload
+        }
       }),
       SET_DIV: (state, action) => ({
         ...state,
-        div: action.payload
+        current: {
+          ...state.current,
+          div: action.payload
+        }
       }),
       SET_TICK: (state, action) => ({
         ...state,
-        tick: action.payload
-      }),
-      SET_HORIZONTAL_ZOOM: (state, action) => ({
-        ...state,
-        zoom: {
-          ...state.zoom,
-          horizontal: {
-            ...state.zoom.horizontal,
-            current: action.payload,
-            derived: (action.payload / state.zoom.horizontal.default).toFixed(2)
-          }
+        current: {
+          ...state.current,
+          tick: action.payload
         }
-      }),
-      ON_ZOOM: (state, action) => {
-        const zoom = action.payload + state.zoom.horizontal.current;
-        const zoomBoundMax =
-          zoom > state.zoom.horizontal.max ? state.zoom.horizontal.max : zoom;
-        const zoomBound =
-          zoomBoundMax < state.zoom.horizontal.min
-            ? state.zoom.horizontal.min
-            : zoomBoundMax;
-
-        return {
-          ...state,
-          zoom: {
-            ...state.zoom,
-            horizontal: {
-              ...state.zoom.horizontal,
-              current: zoomBound,
-              derived: (zoomBound / state.zoom.horizontal.default).toFixed(2)
-            }
-          }
-        };
-      }
+      })
     },
     {
-      bpm: '90',
-      signature: '4/4',
-      bar: 1,
-      beat: 1,
-      div: 1,
-      tick: 1,
-      zoom: {
-        horizontal: {
-          default: 200,
-          max: 1000,
-          current: 200,
-          derived: 1,
-          min: 5,
-          step: 1
-        },
-        vertical: {
-          default: 50,
-          max: 1000,
-          current: 50,
-          derived: 1,
-          min: 5,
-          step: 5
-        }
+      current: {
+        bpm: defaultBpm,
+        signature: '4/4',
+        bars: 1,
+        beats: 1,
+        divs: 1,
+        ticks: 1
+      },
+      arrangement: {
+        ticks: (60 / defaultBpm) * 44100, //960 * 8, // in 1 division
+        width: (60 / defaultBpm) * 44100 * 4 * 100, // bars * ticks * division
+        divs: 4, // 4 divisions per beat = 240 ticks * 4 = 960 ticks
+        beats: 4, // in 1 bar
+        bars: 100,
+        sampleRate: 44100,
+        secondsPerMinutes: 60
       }
     }
   )

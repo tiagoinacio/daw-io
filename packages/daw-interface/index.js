@@ -1,8 +1,8 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import Header from './src/header';
 import View from './src/view';
-import State, { withAudio, withTracks, withTime } from '@daw/state';
+import State, { withAudio, withTracks, withTime, withScene } from '@daw/state';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import InputHandler from '@daw/input';
 import './styles.css';
@@ -38,7 +38,11 @@ const Interface = props => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <InputHandler onNewTrack={props.newTrack} onZoom={() => {}}>
+      <InputHandler
+        onNewTrack={props.newTrack}
+        onZoom={props.onZoom}
+        onScroll={props.onScroll}
+      >
         <div className="interface">
           <Header className="header" />
           <View className="view" />
@@ -51,7 +55,8 @@ const Interface = props => {
 const ConnectedInterface = compose(
   withTime,
   withTracks,
-  withAudio
+  withAudio,
+  withScene
 )(Interface);
 
 export const App = () => (

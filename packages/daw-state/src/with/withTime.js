@@ -2,22 +2,22 @@ import { connect } from 'react-redux';
 import timeActions from '../actions/time';
 import {
   getBPM,
-  getBar,
-  getBeat,
-  getDiv,
-  getTick,
-  getZoom,
+  getBars,
+  getArrangement,
+  getBeats,
+  getDivs,
+  getTicks,
   getSignature
 } from '../selectors/time';
 
 const mapStateToProps = state => ({
   bpm: getBPM(state),
-  bar: getBar(state),
-  beat: getBeat(state),
-  div: getDiv(state),
-  tick: getTick(state),
-  zoom: getZoom(state),
-  signature: getSignature(state)
+  bars: getBars(state),
+  beats: getBeats(state),
+  divs: getDivs(state),
+  ticks: getTicks(state),
+  signature: getSignature(state),
+  arrangement: getArrangement(state)
 });
 
 export const withTime = connect(

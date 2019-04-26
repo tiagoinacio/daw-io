@@ -11,12 +11,17 @@ export default {
       SET_AUDIO_BUFFER: (state, action) => ({
         ...state,
         buffer: [...state.buffer, action.payload]
+      }),
+      SET_AUDIO_BUFFER_ERROR: (state, action) => ({
+        ...state,
+        errors: [...state.errors, action.payload]
       })
     },
     {
       buffer: [],
       context: null,
-      source: null
+      source: null,
+      errors: []
     }
   )
 };

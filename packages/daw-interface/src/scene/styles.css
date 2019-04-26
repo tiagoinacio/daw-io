@@ -1,0 +1,23 @@
+#horizontal-zoom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2em;
+  background: white;
+}
+
+#vertical-zoom {
+  position: absolute;
+  bottom: 70px;
+  transform: rotateZ(90deg);
+  right: -60px;
+  height: 2em;
+  background: white;
+}
+
+#input input {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
