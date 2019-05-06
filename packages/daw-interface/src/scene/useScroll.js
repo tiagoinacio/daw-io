@@ -9,7 +9,7 @@ export default ({ zoom, maxY, ref }) => {
     if (!event.ctrlKey) {
       const x = Math.max(
         ref.current.clientWidth / 2,
-        position.x + (event.deltaX * zoom.horizontal.current) / 100
+        position.x + (event.deltaX * zoom.horizontal.current) / 10
       );
       const y = Math.min(maxY, position.y - event.deltaY);
 
@@ -26,7 +26,7 @@ export default ({ zoom, maxY, ref }) => {
     return () => {
       document.removeEventListener('wheel', onScroll);
     };
-  }, []);
+  }, [position]);
 
   return position;
 };

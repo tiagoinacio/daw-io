@@ -3,6 +3,7 @@ import { withScene, withTime } from '@daw/state';
 import useZoom from './useZoom';
 import useScroll from './useScroll';
 import useCamera from './useCamera';
+import useMouse from './useMouse';
 import DroppableContainer from '../droppable-container';
 import addWaveforms from '../waveforms';
 import addTracks from '../tracks';
@@ -28,26 +29,17 @@ const ThreeScene = props => {
     ref,
     maxY: 0
   });
-
-  var raycaster = new THREE.Raycaster(); // create once
-  var mouse = new THREE.Vector2(); // create once
-
   const renderScene = () => {
     props.renderer.render(props.scene, camera);
   };
-
-  const onMouseMove = event => {
-    mouse.x = (event.clientX / ref.current.clientWidth) * 2 - 1;
-    mouse.y = -(event.clientY / ref.current.clientHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(props.objects, true);
-    // console.log(mouse.x, mouse.y, props.objects, intersects);
-    if (intersects[0]) {
-      Object.keys(intersects).forEach(mesh => {
-        console.log(mesh);
-      });
-    }
-  };
+  const { onMouseMove, isDragging } = useMouse({
+    domElement: props.renderer.domElement,
+    camera,
+    objects: props.objects,
+    renderScene,
+    zoomValueX,
+    zoomValueY
+  });
 
   useEffect(() => {
     ref.current.appendChild(props.renderer.domElement);
@@ -59,20 +51,11 @@ const ThreeScene = props => {
 
   useEffect(() => {
     if (camera) {
-      camera.position.set(ref.current.clientWidth / 2, 0, 1);
-
-      camera.updateProjectionMatrix();
-
       props.scene.add(camera);
-
       props.setCamera(camera);
-
       addArrangementBackground(props);
-
       props.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-
       props.renderer.setSize(ref.current.clientWidth, ref.current.clientHeight);
-
       requestAnimationFrame(renderScene);
     }
   }, [camera]);
@@ -83,7 +66,7 @@ const ThreeScene = props => {
       camera.updateProjectionMatrix();
       requestAnimationFrame(renderScene);
     }
-  }, [x, y]);
+  }, [x, y, zoomValueX, zoomValueY, isDragging]);
 
   useEffect(() => {
     if (camera) {
@@ -94,13 +77,6 @@ const ThreeScene = props => {
       requestAnimationFrame(renderScene);
     }
   }, [props.tracks]);
-
-  useEffect(() => {
-    if (camera) {
-      camera.updateProjectionMatrix();
-      requestAnimationFrame(renderScene);
-    }
-  }, [zoomValueX, zoomValueY]);
 
   useEffect(() => {
     if (camera) {

@@ -19,6 +19,10 @@ export default ({ ref, zoom, arrangement }) => {
       5000
     );
 
+    camera.position.set(ref.current.clientWidth / 2, 0, 1);
+
+    camera.updateProjectionMatrix();
+
     setCamera(camera);
   }, []);
 
