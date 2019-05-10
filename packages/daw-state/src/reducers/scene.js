@@ -10,42 +10,18 @@ export default {
       }),
       ADD_TO_SCENE: (state, action) => ({
         ...state,
-        objects: [...state.objects, action.payload]
-      }),
-      ON_SCROLL: (state, action) => {
-        const horizontal = Math.max(
-          0,
-          state.scroll.horizontal + action.payload.deltaX * 10
-        );
-        const vertical = Math.max(
-          0,
-          state.scroll.vertical + action.payload.deltaY * 10
-        );
-
-        return {
-          ...state,
-          scroll: {
-            horizontal,
-            vertical
+        objects: [...state.objects, action.payload].sort((a, b) => {
+          if (a.trackId < b.trackId) {
+            return a;
           }
-        };
-      },
-      ON_ZOOM: (state, action) => {
-        const zoom = action.payload;
-        const zoomBoundMax = Math.min(state.zoom.horizontal.max, zoom);
-        const zoomBound = Math.max(zoomBoundMax, state.zoom.horizontal.min);
 
-        return {
-          ...state,
-          zoom: {
-            ...state.zoom,
-            horizontal: {
-              ...state.zoom.horizontal,
-              current: zoomBound
-            }
+          if (a.trackId > b.trackId) {
+            return b;
           }
-        };
-      }
+
+          return a.position.x < b.position.x ? a : b;
+        })
+      })
     },
     {
       renderer: new THREE.WebGLRenderer({ antialias: true }),

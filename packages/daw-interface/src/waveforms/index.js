@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
 export default props => {
-  props.audioBuffer.forEach(buffer => {
+  props.audioBuffer.forEach((buffer, trackId) => {
     const data = buffer.getChannelData(0);
     const material = new THREE.LineBasicMaterial({
-      color: 0x0000ff
+      color: 0x416696
     });
     const geometry = new THREE.Geometry();
     const halfTrackHeight = props.layout.trackHeight / 2;
@@ -29,18 +29,22 @@ export default props => {
       props.layout.trackHeight
     );
     const planeMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff
+      color: 0xe2e2e4
     });
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 
     plane.position.x = data.length / 2;
-    plane.position.z = -1;
+    line.position.z = -3;
+    plane.position.z = -5;
+
+    group.name = 'waveform';
     group.add(plane);
     group.add(line);
 
     group.position.y = 0 - halfTrackHeight;
     // Fix first ticks because our geometry starts at the first tick bar
     group.position.x = -props.arrangement.ticks;
+    group.trackId = trackId;
     props.addToScene(group);
   });
 };

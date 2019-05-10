@@ -35,10 +35,13 @@ const ThreeScene = props => {
   const { onMouseMove, isDragging } = useMouse({
     domElement: props.renderer.domElement,
     camera,
+    ref,
+    arrangement: props.arrangement,
     objects: props.objects,
     renderScene,
     zoomValueX,
-    zoomValueY
+    zoomValueY,
+    zoom: props.zoom
   });
 
   useEffect(() => {
