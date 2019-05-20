@@ -16,5 +16,6 @@ export default {
   setHorizontalZoom: createAction('SET_HORIZONTAL_ZOOM'),
   onZoom: createAction('ON_ZOOM'),
   onScroll: createAction('ON_SCROLL'),
-  addToScene
+  addToScene,
+  addToRaycaster: createAction('ADD_TO_RAYCASTER')
 };

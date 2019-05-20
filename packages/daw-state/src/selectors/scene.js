@@ -6,3 +6,4 @@ export const getRaycaster = state => state.scene.raycaster;
 export const getScroll = state => state.scene.scroll;
 export const getObjects = state => state.scene.objects;
 export const getLayout = state => state.scene.layout;
+export const getRaycasterObjects = state => state.scene.raycasterObjects;

@@ -8,6 +8,7 @@ import {
   getObjects,
   getLayout,
   getRaycaster,
+  getRaycasterObjects,
   getScroll
 } from '../selectors/scene';
 
@@ -19,7 +20,8 @@ const mapStateToProps = state => ({
   zoom: getZoom(state),
   layout: getLayout(state),
   scroll: getScroll(state),
-  objects: getObjects(state)
+  objects: getObjects(state),
+  raycasterObjects: getRaycasterObjects(state)
 });
 
 export const withScene = connect(

@@ -8,6 +8,10 @@ export default {
         ...state,
         camera: action.payload
       }),
+      ADD_TO_RAYCASTER: (state, action) => ({
+        ...state,
+        raycasterObjects: [...state.raycasterObjects, action.payload]
+      }),
       ADD_TO_SCENE: (state, action) => ({
         ...state,
         objects: [...state.objects, action.payload].sort((a, b) => {
@@ -27,6 +31,7 @@ export default {
       renderer: new THREE.WebGLRenderer({ antialias: true }),
       scene: new THREE.Scene(),
       raycaster: new THREE.Raycaster(),
+      raycasterObjects: [],
       objects: [],
       camera: null,
       layout: {

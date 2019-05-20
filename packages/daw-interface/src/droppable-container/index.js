@@ -11,13 +11,17 @@ const onDragEnter = event => {
   event.preventDefault();
 };
 
-export default withAudio(({ onDrop, forwardedRef, style, onMouseMove }) => (
-  <div
-    onDrop={onDrop}
-    onMouseMove={onMouseMove}
-    onDragOver={onDragOver}
-    onDragEnter={onDragEnter}
-    ref={forwardedRef}
-    style={style}
-  />
-));
+export default withAudio(
+  ({ onDrop, forwardedRef, style, onMouseMove, onMouseDown, onMouseUp }) => (
+    <div
+      onDrop={onDrop}
+      onMouseMove={onMouseMove}
+      onDragOver={onDragOver}
+      onDragEnter={onDragEnter}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      ref={forwardedRef}
+      style={style}
+    />
+  )
+);

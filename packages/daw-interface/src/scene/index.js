@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Fragment } from 'react';
+import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { withScene, withTime } from '@daw/state';
 import useZoom from './useZoom';
 import useScroll from './useScroll';
@@ -19,20 +19,28 @@ const ThreeScene = props => {
     zoom: props.zoom,
     scene: props.scene
   });
-  const { zoomValueX, zoomValueY, onZoomY, onZoomX } = useZoom({
-    zoom: props.zoom,
-    camera,
-    ref
-  });
   const { x, y } = useScroll({
     zoom: props.zoom,
     ref,
     maxY: 0
   });
+  const { zoomValueX, zoomValueY, onZoomY, onZoomX } = useZoom({
+    zoom: props.zoom,
+    camera,
+    ref,
+    arrangement: props.arrangement
+  });
+  let timeout;
+
   const renderScene = () => {
-    props.renderer.render(props.scene, camera);
+    if (timeout) {
+      window.cancelAnimationFrame(timeout);
+    }
+    timeout = requestAnimationFrame(() =>
+      props.renderer.render(props.scene, camera)
+    );
   };
-  const { onMouseMove, isDragging } = useMouse({
+  const { onMouseMove, onMouseUp, onMouseDown } = useMouse({
     domElement: props.renderer.domElement,
     camera,
     ref,
@@ -41,14 +49,24 @@ const ThreeScene = props => {
     renderScene,
     zoomValueX,
     zoomValueY,
-    zoom: props.zoom
+    zoom: props.zoom,
+    raycasterObjects: props.raycasterObjects
   });
 
   useEffect(() => {
+    const onWindowResize = () => {
+      camera.aspect = ref.current.clientWidth / ref.current.clientHeight;
+      camera.updateProjectionMatrix();
+
+      props.renderer.setSize(ref.current.clientWidth, ref.current.clientHeight);
+    };
+
     ref.current.appendChild(props.renderer.domElement);
+    ref.current.addEventListener('resize', onWindowResize, false);
 
     return () => {
       ref.current.removeChild(props.renderer.domElement);
+      ref.current.removeEventListener('resize', onWindowResize);
     };
   }, []);
 
@@ -59,17 +77,23 @@ const ThreeScene = props => {
       addArrangementBackground(props);
       props.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
       props.renderer.setSize(ref.current.clientWidth, ref.current.clientHeight);
-      requestAnimationFrame(renderScene);
+      renderScene();
     }
   }, [camera]);
 
   useEffect(() => {
     if (camera) {
-      camera.position.set(x, y, 1);
       camera.updateProjectionMatrix();
-      requestAnimationFrame(renderScene);
+      renderScene();
     }
-  }, [x, y, zoomValueX, zoomValueY, isDragging]);
+  }, [zoomValueX, zoomValueY]);
+
+  useEffect(() => {
+    if (camera) {
+      camera.position.set(x, y, 1);
+      renderScene();
+    }
+  }, [x, y]);
 
   useEffect(() => {
     if (camera) {
@@ -77,14 +101,14 @@ const ThreeScene = props => {
         ...props,
         height: ref.current.clientHeight
       });
-      requestAnimationFrame(renderScene);
+      renderScene();
     }
   }, [props.tracks]);
 
   useEffect(() => {
     if (camera) {
       addWaveforms({ ...props, height: ref.current.clientHeight });
-      requestAnimationFrame(renderScene);
+      renderScene();
     }
   }, [props.audioBuffer]);
 
@@ -92,6 +116,8 @@ const ThreeScene = props => {
     <Fragment>
       <DroppableContainer
         onMouseMove={onMouseMove}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         forwardedRef={ref}
         style={{ width: '100%', height: '100%' }}
       />

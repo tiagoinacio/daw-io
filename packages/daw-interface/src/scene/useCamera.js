@@ -8,10 +8,11 @@ export default ({ ref, zoom, arrangement }) => {
     const width = ref.current.clientWidth;
     const height = ref.current.clientHeight;
     const defaultRight = (width / 2) * 10;
+    const left = width / -2 - arrangement.ticks;
     const right =
       (defaultRight / zoom.horizontal.default) * zoom.horizontal.current;
     const camera = new THREE.OrthographicCamera(
-      width / -2 - arrangement.ticks,
+      left,
       right,
       0,
       -height,

@@ -8,6 +8,8 @@ export default ({ zoom, maxY, ref }) => {
   const onScroll = event => {
     if (!event.ctrlKey) {
       const x = Math.max(
+        // TODO don't calculate this everytime
+        // TODO Replicated on useZoom
         ref.current.clientWidth / 2,
         position.x + (event.deltaX * zoom.horizontal.current) / 10
       );

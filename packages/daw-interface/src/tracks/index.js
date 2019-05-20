@@ -41,5 +41,6 @@ export default props => {
     group.trackId = trackId;
 
     props.addToScene(group);
+    props.addToRaycaster(group);
   });
 };

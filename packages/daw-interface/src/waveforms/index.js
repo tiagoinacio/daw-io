@@ -46,5 +46,6 @@ export default props => {
     group.position.x = -props.arrangement.ticks;
     group.trackId = trackId;
     props.addToScene(group);
+    props.addToRaycaster(plane);
   });
 };

@@ -6,6 +6,7 @@ export default ({
   camera,
   objects,
   renderScene,
+  raycasterObjects,
   zoom,
   zoomValueX,
   zoomValueY,
@@ -22,6 +23,7 @@ export default ({
 
     return mouse;
   };
+  let onMouseUp, onMouseUpHandler;
 
   const dragWaveform = ({ trackPC, mouseDifference }) => {
     currentObject.object.parent.position.x = trackPC.x + mouseDifference.x;
@@ -63,13 +65,12 @@ export default ({
 
   const onMouseAction = event => {
     raycaster.setFromCamera(getMouse(event), camera);
-
-    const intersects = raycaster.intersectObjects(objects, true);
+    const intersects = raycaster.intersectObjects(raycasterObjects, true);
 
     if (intersects[0] && currentObject !== intersects[0]) {
       domElement.style.cursor = 'pointer';
       setCurrentObject(intersects[0]);
-    } else {
+    } else if (currentObject !== intersects[0]) {
       domElement.style.cursor = 'default';
       setCurrentObject(null);
     }
@@ -99,8 +100,6 @@ export default ({
       const right = (defaultRight / zoom.horizontal.default) * zoomValueX;
       const left = width / -2 - arrangement.ticks;
 
-      let onMouseUp, onMouseUpHandler;
-
       let onMouseMove = event => {
         const nextCoordinates = getMouse(event);
         const mouseDifference = {
@@ -123,13 +122,13 @@ export default ({
           });
         }
 
-        requestAnimationFrame(renderScene);
+        renderScene();
 
         if (!onMouseUp) {
           onMouseUp = () => {
             domElement.style.cursor = 'default';
             document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('onMouseUp', onMouseUp);
+            document.removeEventListener('mouseup', onMouseUp);
             onMouseMove = null;
             onMouseUp = null;
             onMouseUpHandler = null;
@@ -149,13 +148,5 @@ export default ({
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', onMouseDown, false);
-
-    return () => {
-      document.removeEventListener('mousedown', onMouseDown);
-    };
-  }, [currentObject]);
-
-  return { onMouseMove: onMouseAction };
+  return { onMouseMove: onMouseAction, onMouseUp, onMouseDown };
 };
