@@ -7581,9 +7581,9 @@ three-dragger@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/three-dragger/-/three-dragger-1.0.1.tgz#81738898d9b0d062ae723161de1889dd4aa47640"
 
-three@^0.103.0:
-  version "0.103.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.103.0.tgz#63b3dbccc861caad93269618061a73dadebae71b"
+three@^0.125.0:
+  version "0.125.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.125.0.tgz#19e922b9dc51ad0b706893aeee888de68e99850a"
 
 throat@^3.0.0:
   version "3.2.0"
